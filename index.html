@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>河科大洛尘志愿填报</title>
+<meta name="description" content="河科大洛尘志愿填报——基于河南科技大学2025年在豫本科批真实录取数据，输入分数或位次，智能生成冲稳保志愿推荐，并提供专业实力与就业前景分析。">
+<style>
+:root{
+  --navy:#12306b; --blue:#1d4ed8; --blue2:#2563eb; --sky:#eaf1ff;
+  --gold:#e9a836; --gold-soft:#fff6e6;
+  --ink:#1b2740; --muted:#6b7892; --line:#e6ebf4;
+  --bg:#f6f8fc; --card:#ffffff;
+  --bao:#16a34a; --wen:#2563eb; --chong:#ea580c;
+  --shadow:0 8px 30px rgba(20,50,110,.08);
+  --shadow-lg:0 18px 50px rgba(20,50,110,.14);
+}
+/* ===== UI 精细化打磨：质感 / 微动效 ===== */
+@keyframes floatIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes pulseGlow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.12)}}
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.hero-cta .hero-badge,.hero-cta .hero-btns{animation:floatIn .7s both}
+.hero-cta .hero-badge{animation-delay:.05s}.hero-cta .hero-btns{animation-delay:.15s}
+.banner-wrap img{animation:fadeBanner 1s both}
+@keyframes fadeBanner{from{opacity:.4;transform:scale(1.02)}to{opacity:1;transform:none}}
+.hero-btns .btn{transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s}
+.hero-btns .btn:hover{transform:translateY(-3px)}
+.btn-gold{position:relative;overflow:hidden}
+.btn-gold::after{content:"";position:absolute;top:0;left:0;width:60px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);left:-80px}
+.btn-gold:hover::after{animation:shimmer .7s ease}
+/* 数据条：数字渐变 + 顶部渐变描边 + 悬浮 */
+.stats-grid{border:1px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#1d4ed8,#e9a836,#22c55e) border-box;border-width:2px}
+.stat{position:relative;transition:.25s}
+.stat:hover{background:linear-gradient(180deg,#f8fbff,#fff);transform:translateY(-3px)}
+.stat b{background:linear-gradient(180deg,#16357c,#2563eb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat b span{-webkit-text-fill-color:#e9a836}
+/* 区块标题装饰线 */
+.sec-head h2{position:relative;display:inline-block}
+.sec-head h2::after{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:46px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--gold))}
+/* 卡片悬浮增强 */
+.calc-card,.panel,.lib-card,.sum-card,.tier{transition:box-shadow .28s,transform .28s}
+.calc-card:hover,.panel:hover{box-shadow:var(--shadow-lg)}
+.tab.active{box-shadow:inset 0 -3px 0 var(--gold)}
+/* 徽标光点呼吸 */
+.hero-badge .dot{animation:pulseGlow 2.2s ease-in-out infinite}
+/* 结果面板入场 */
+.summary,.tiers{animation:floatIn .5s both}
+.tiers{animation-delay:.08s}
+.mcard{animation:floatIn .35s both;transition:transform .18s,box-shadow .18s,border-color .18s}
+.mcard:hover{box-shadow:0 10px 26px rgba(20,50,110,.13)}
+/* 概率条流光 */
+.bar i{position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;top:0;left:0;height:100%;width:40px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:shimmer 2.6s linear infinite}
+/* 滚动条美化 */
+.tier-list::-webkit-scrollbar{width:6px}
+.tier-list::-webkit-scrollbar-thumb{background:#cfd9ee;border-radius:6px}
+.tier-list::-webkit-scrollbar-track{background:transparent}
+/* 页脚渐变 */
+footer{background:linear-gradient(135deg,#0e2350,#12306b 60%,#1d4ed8)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+a{text-decoration:none;color:inherit}
+
+/* 顶栏 */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{height:66px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:17px;color:var(--navy)}
+.brand svg{width:34px;height:34px;flex:none}
+.brand small{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px}
+.navlinks{display:flex;gap:30px;font-size:14px;font-weight:600;color:#3b4a68}
+.navlinks a:hover{color:var(--blue)}
+
+/* Hero —— 完整展示带站名的画幅 + 引导栏 */
+.hero{position:relative;color:#fff;background:#08142e}
+.banner-wrap{width:100%;line-height:0;position:relative}
+.banner-wrap img{width:100%;height:auto;display:block}
+.hero-cta{background:linear-gradient(180deg,#08142e 0%,#0d2049 100%);padding:20px 0 34px}
+.hero-cta .inner{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:9px 17px;border-radius:100px;font-size:13px;font-weight:600}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:#5eead4;box-shadow:0 0 0 4px rgba(94,234,212,.2)}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:.2s}
+.btn-gold{background:linear-gradient(135deg,#ffd580,#e9a836);color:#3a2600;box-shadow:0 8px 20px rgba(233,168,54,.3)}
+.btn-gold:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.32)}
+.btn-ghost:hover{background:rgba(255,255,255,.18)}
+
+/* 数据条 */
+.stats{position:relative;z-index:3;margin-top:-42px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--line)}
+.stat{padding:24px 18px;text-align:center;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat b{display:block;font-size:30px;color:var(--navy);font-weight:850;letter-spacing:-1px}
+.stat b span{font-size:15px;color:var(--gold);margin-left:2px}
+.stat p{font-size:13px;color:var(--muted);margin-top:4px;font-weight:600}
+
+/* 通用区块 */
+.section{padding:70px 0}
+.section.alt{background:#eef2fa}
+.sec-head{text-align:center;margin-bottom:38px}
+.sec-head .kicker{color:var(--blue);font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.sec-head h2{font-size:32px;color:var(--navy);margin:8px 0 10px;font-weight:850;letter-spacing:-.5px}
+.sec-head p{color:var(--muted);font-size:15px;max-width:640px;margin:0 auto}
+
+/* 推荐器 */
+.calc-card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden}
+.tabs{display:flex;background:#f1f5fc;border-bottom:1px solid var(--line)}
+.tab{flex:1;padding:18px;text-align:center;font-size:16px;font-weight:700;color:var(--muted);cursor:pointer;transition:.2s;border-bottom:3px solid transparent}
+.tab.active{color:var(--blue);background:#fff;border-bottom-color:var(--blue)}
+.calc-body{padding:30px 34px 34px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px 30px}
+.field label{display:block;font-size:13px;font-weight:700;color:#41516f;margin-bottom:9px}
+.seg{display:inline-flex;background:#f1f5fc;border-radius:9px;padding:3px;gap:3px}
+.seg button{padding:7px 18px;border:none;background:transparent;border-radius:7px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer}
+.seg button.active{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(20,50,110,.1)}
+.input-wrap{position:relative}
+.input-wrap input{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:10px;font-size:22px;font-weight:800;color:var(--navy);outline:none;transition:.2s;font-family:inherit}
+.input-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(29,78,216,.08)}
+.input-wrap .unit{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;font-weight:600}
+.hint{font-size:12px;color:var(--muted);margin-top:7px}
+.hint b{color:var(--blue)}
+.checkline{display:flex;align-items:center;gap:9px;font-size:14px;color:#41516f;font-weight:600;cursor:pointer;margin-top:6px}
+.checkline input{width:17px;height:17px;accent-color:var(--blue)}
+.slider-row{display:flex;align-items:center;gap:14px}
+.slider-row input[type=range]{flex:1;accent-color:var(--blue);height:5px}
+.slider-val{background:var(--sky);color:var(--blue);font-weight:800;font-size:13px;padding:4px 11px;border-radius:7px;min-width:52px;text-align:center}
+.calc-actions{margin-top:30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.btn-primary{background:linear-gradient(135deg,#1d4ed8,#1738a8);color:#fff;padding:14px 32px;font-size:15px;box-shadow:0 8px 20px rgba(29,78,216,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(29,78,216,.32)}
+.calc-actions .note{font-size:12px;color:var(--muted)}
+
+/* 结果 */
+#result{margin-top:34px}
+.summary{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:14px;margin-bottom:24px}
+.sum-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.sum-main{background:linear-gradient(135deg,#12306b,#1d4ed8);color:#fff;border:none}
+.sum-main .lbl{color:#cddaf3}
+.sum-main .big{color:#fff !important;-webkit-text-fill-color:#fff !important}
+.sum-main .big small{color:#b9cdf0 !important;-webkit-text-fill-color:#b9cdf0 !important}
+.sum-card .lbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.sum-card .big{font-size:26px;color:var(--navy);font-weight:850;line-height:1.1}
+.sum-card .big small{font-size:13px;font-weight:600;color:var(--muted)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tier{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.tier-head{padding:16px 18px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+.tier.chong .tier-head{background:linear-gradient(135deg,#f97316,#ea580c)}
+.tier.wen .tier-head{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.tier.bao .tier-head{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.tier-head h3{font-size:16px;font-weight:800}
+.tier-head .cnt{font-size:12px;font-weight:700;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:100px}
+.tier-desc{font-size:11px;opacity:.9;margin-top:2px}
+.tier-list{max-height:560px;overflow-y:auto;padding:10px}
+.mcard{border:1px solid var(--line);border-radius:11px;padding:13px 14px;margin-bottom:9px;transition:.15s;background:#fff;cursor:pointer}
+.mcard:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(29,78,216,.1);transform:translateY(-1px)}
+.mrow1{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.mname{font-size:14px;font-weight:800;color:var(--ink);line-height:1.35}
+.mtags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.mtag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;background:#f1f5fc;color:#64748b}
+.mtag.gold{background:var(--gold-soft);color:#b4791a}
+.mtag.coop{background:#fef2f2;color:#dc2626}
+.prob{font-size:19px;font-weight:850;flex:none;line-height:1}
+.prob small{font-size:11px}
+.prob.c1{color:var(--chong)}.prob.c2{color:var(--wen)}.prob.c3{color:var(--bao)}
+.bar{height:5px;background:#eef2f8;border-radius:5px;margin:11px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:5px}
+.c1 .bar i{background:var(--chong)}.c2 .bar i{background:var(--wen)}.c3 .bar i{background:var(--bao)}
+.mrow2{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);font-weight:600}
+.mrow2 b{color:#3b4a68}
+.detail-btn{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-size:11.5px;font-weight:700;color:var(--blue);background:var(--sky);border:none;padding:5px 11px;border-radius:7px;cursor:pointer;transition:.18s}
+.detail-btn:hover{background:var(--blue);color:#fff}
+.detail-btn .arrow{transition:transform .2s;display:inline-block}
+.mcard.open .detail-btn .arrow{transform:rotate(180deg)}
+.detail-panel{display:none;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line);animation:floatIn .3s both}
+.mcard.open .detail-panel{display:block}
+.dp-sec{margin-bottom:11px}
+.dp-sec:last-child{margin-bottom:0}
+.dp-h{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.dp-h .ic{width:19px;height:19px;border-radius:5px;display:grid;place-items:center;font-size:11px;background:var(--sky);color:var(--blue);flex:none}
+.dp-txt{font-size:12px;color:#55637e;line-height:1.62}
+.dp-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+.dp-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;background:linear-gradient(135deg,#eff4ff,#e3ecff);color:#1d4ed8}
+.dp-note{font-size:10.5px;color:#94a3b8;margin-top:10px;line-height:1.5;font-style:italic}
+.empty{text-align:center;color:var(--muted);font-size:13px;padding:26px 10px}
+
+/* 专业库 */
+.toolbar{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;padding:12px 14px 12px 40px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none;font-family:inherit}
+.search input:focus{border-color:var(--blue)}
+.search::before{content:"⌕";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--muted)}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{padding:8px 14px;border:1.5px solid var(--line);background:#fff;border-radius:100px;font-size:13px;font-weight:700;color:#41516f;cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--blue)}
+.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.lib-card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:#f7f9fd;color:#5a6885;font-size:12px;font-weight:800;position:sticky;top:0}
+tr:hover td{background:#fafcff}
+td.name{font-weight:700;color:var(--ink)}
+td .mini-tag{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--gold-soft);color:#b4791a;margin-left:6px}
+.lib-foot{padding:13px 16px;font-size:12px;color:var(--muted);background:#fafcff;border-top:1px solid var(--line)}
+
+/* 说明区 */
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px 30px;box-shadow:var(--shadow)}
+.panel h3{font-size:18px;color:var(--navy);margin-bottom:16px;font-weight:800;display:flex;align-items:center;gap:9px}
+.panel h3 .ico{width:30px;height:30px;border-radius:8px;background:var(--sky);display:grid;place-items:center;font-size:16px}
+.panel p,.panel li{font-size:13.5px;color:#4b5a76;margin-bottom:10px}
+.panel ul{padding-left:2px;list-style:none}
+.panel li{padding-left:20px;position:relative}
+.panel li::before{content:"";position:absolute;left:2px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.panel a{color:var(--blue);font-weight:600;word-break:break-all}
+.disc{background:var(--gold-soft);border:1px solid #f6e3bd;border-radius:16px;padding:22px 26px;font-size:13px;color:#7a5a1e;margin-top:20px;line-height:1.8}
+.disc b{color:#8a5a00}
+
+footer{color:#aebfe0;text-align:center;padding:34px 22px;font-size:13px}
+footer b{color:#fff;font-size:15px}
+footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
+
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .hero h1{font-size:34px}
+  .form-grid{grid-template-columns:1fr}
+  .tiers{grid-template-columns:1fr}
+  .tier-list{max-height:none}
+  .summary{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr}
+  .navlinks{display:none}
+}
+@media(max-width:560px){
+  .hero .wrap{padding:52px 20px 68px}
+  .hero h1{font-size:29px}
+  .wrap{padding:0 16px}
+  .calc-body{padding:22px 18px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="22" fill="#12306b"/>
+        <path d="M24 9 L38 17 L24 25 L10 17 Z" fill="#ffd580"/>
+        <path d="M14 20 V30 C14 33 18.5 36 24 36 C29.5 36 34 33 34 30 V20 L24 26 Z" fill="#fff" opacity=".92"/>
+        <path d="M38 17 V29" stroke="#ffd580" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="38" cy="31" r="2" fill="#ffd580"/>
+      </svg>
+      <div>河科大洛尘志愿填报<small>LUOCHEN · 河南科技大学志愿填报</small></div>
+    </div>
+    <nav class="navlinks">
+      <a href="#calc">智能推荐</a>
+      <a href="#lib">专业数据库</a>
+      <a href="#about">数据来源</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="banner-wrap">
+    <img src="assets/banner.jpg" alt="河科大洛尘志愿填报——用数据读懂录取，让每一分都有去处">
+  </div>
+  <div class="hero-cta">
+    <div class="wrap inner">
+      <div class="hero-badge"><span class="dot"></span>基于 2025 年在豫本科批官方录取数据 · 河南新高考首年</div>
+      <div class="hero-btns">
+        <a href="#calc" class="btn btn-gold">开始智能测算 →</a>
+        <a href="#lib" class="btn btn-ghost">浏览专业数据库</a>
+        <a href="assets/banner.jpg" download="河科大洛尘志愿填报-画幅.jpg" class="btn btn-ghost">↓ 下载画幅</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><b>1952</b><p>建校于北京 · 1956 迁洛</p></div>
+      <div class="stat"><b>21<span>个</span></b><p>国家级一流本科专业</p></div>
+      <div class="stat"><b>10<span>个</span></b><p>ESI 全球前 1% 学科</p></div>
+      <div class="stat"><b>2<span>个</span></b><p>河南省「双一流」创建学科</p></div>
+    </div>
+  </div>
+</div>
+
+<section id="calc" class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Smart Recommendation</div>
+      <h2>智能志愿推荐</h2>
+      <p>看分数不如看位次——分数每年随试卷难度浮动，位次才是稳定的参照。填入你的分数或位次，系统会拿它和 2025 年各专业录取位次逐一比对，给出冲、稳、保建议。</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="tabs">
+        <div class="tab active" data-type="phys">物理类 · 理科方向</div>
+        <div class="tab" data-type="hist">历史类 · 文科方向</div>
+      </div>
+      <div class="calc-body">
+        <div class="form-grid">
+          <div class="field">
+            <label>输入方式</label>
+            <div class="seg" id="modeSeg">
+              <button class="active" data-mode="score">按分数</button>
+              <button data-mode="rank">按位次</button>
+            </div>
+          </div>
+          <div class="field">
+            <label id="inputLbl">你的高考分数</label>
+            <div class="input-wrap">
+              <input type="number" id="valInput" placeholder="例如 580" min="0" max="750">
+              <span class="unit" id="unitTxt">分</span>
+            </div>
+            <div class="hint" id="convHint">输入分数后自动换算为位次</div>
+          </div>
+          <div class="field" id="subjField">
+            <label>选考科目（影响可报专业）</label>
+            <div class="seg" id="chemSeg">
+              <button class="active" data-chem="yes">已选化学</button>
+              <button data-chem="no">未选化学</button>
+            </div>
+            <div class="hint">2025 年河科大物理类多数专业组要求再选化学</div>
+          </div>
+          <div class="field">
+            <label>推荐偏好</label>
+            <label class="checkline"><input type="checkbox" id="incCoop"> 包含中外合作办学专业（分数较低）</label>
+            <div class="slider-row" style="margin-top:14px">
+              <input type="range" id="riskRange" min="115" max="140" value="125" step="5">
+              <span class="slider-val" id="riskVal">1.25×</span>
+            </div>
+            <div class="hint">冲刺强度：越大则纳入更多「冲刺」专业</div>
+          </div>
+        </div>
+        <div class="calc-actions">
+          <button class="btn btn-primary" id="goBtn">生成我的志愿方案</button>
+          <span class="note">* 结果基于历年位次估算，仅供填报参考</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="result" hidden>
+      <div class="summary" id="summary"></div>
+      <div class="tiers" id="tiers"></div>
+    </div>
+  </div>
+</section>
+
+<section id="lib" class="section alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Major Database</div>
+      <h2>专业录取数据库</h2>
+      <p>河科大 2025 年在豫本科批招生的全部专业，最低分和最低位次都在这里。可以按名称搜，也可以按学科门类筛。</p>
+    </div>
+    <div class="toolbar">
+      <div class="search"><input type="text" id="libSearch" placeholder="搜索专业名称，如：计算机、临床、法学…"></div>
+      <div class="chips" id="catChips"></div>
+    </div>
+    <div class="lib-card">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>专业名称</th><th>学科门类</th><th>科类</th><th>专业组</th><th>最低分</th><th>最低位次</th><th>录取人数</th>
+          </tr></thead>
+          <tbody id="libBody"></tbody>
+        </table>
+      </div>
+      <div class="lib-foot" id="libFoot"></div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Data & Sources</div>
+      <h2>数据来源与说明</h2>
+      <p>每个数字都有出处。这里写明数据从哪来、怎么算，以及它的边界在哪。</p>
+    </div>
+    <div class="about-grid">
+      <div class="panel">
+        <h3><span class="ico">🎓</span>河南科技大学概况</h3>
+        <ul>
+          <li>坐落于「千年古都、牡丹花城」洛阳，1952 年创建于北京，2002 年由洛阳工学院、洛阳医学高等专科学校、洛阳农业高等专科学校合并组建。</li>
+          <li>河南省「双一流」创建高校、河南省重点建设的高水平综合性大学，工科优势突出，理、工、农、医、文等多学科协调发展。</li>
+          <li>拥有国家级一流本科专业建设点 21 个，10 个学科进入 ESI 全球前 1%；材料科学与工程、机械工程入选河南省「双一流」创建学科。</li>
+          <li>校训：明德博学、日新笃行。招生咨询：0379-64270929 / 65627168 / 65627125。</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3><span class="ico">📊</span>数据与算法说明</h3>
+        <ul>
+          <li><b>录取数据：</b>来自河南科技大学招生就业办公室公布的《2023 年-2025 年河南省录取情况》，采用其中 <b>2025 年（河南新高考首年）</b>本科批各专业数据。</li>
+          <li><b>省控线：</b>2025 年河南本科批物理类 427 分、历史类 471 分。</li>
+          <li><b>位次换算：</b>按分数输入时，依据本校 2025 各专业「分数—位次」对应点插值估算；直接输入位次更准确。</li>
+          <li><b>分档逻辑：</b>以「你的位次 ÷ 专业录取位次」的比值分档：≤0.85 保底、0.85~1.02 稳妥、1.02~冲刺上限为冲刺。</li>
+          <li><b>数据来源链接：</b><a href="https://zjc.haust.edu.cn/info/1143/25635.htm" target="_blank" rel="noopener">zjc.haust.edu.cn/info/1143/25635.htm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disc">
+      <b>说在点子上：</b>这个网站不是官方渠道，录取概率也是根据历年位次估算的。招生人数变了、报考的人多了、试卷难度不同，结果都会跟着晃。所以这些数字请当参考，别当成录取承诺，最终填报还得你自己拿主意。各专业的选科要求、招生计划和学费，以河南省教育考试院和学校当年发布的招生章程为准；数据和官方公布不一致时，以官方为准。
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><b>河科大洛尘志愿填报</b></div>
+  <div class="line">数据来源于河南科技大学招生就业办公室公开信息 · 仅供填报参考 · 非官方网站</div>
+</footer>
+
+<script>
+/* ================= 数据区（来源：河南科技大学招生就业办公室 2025 年在豫录取数据） ================= */
+/* 字段：[专业名称, 学科门类, 最低分, 最低位次, 专业组, 录取人数, 标签, 类型] */
+/* 标签: '' 无 / '一流' 国家级一流本科专业 / '重点' 国家重点 / '特色' 特色专业；类型: 'n'普通 / 'c'中外 / 'a'应用工程学院 */
+const PHYS = [
+["工业工程","管理学",574,79867,"101",11,"","n"],
+["建筑类","工学",557,106110,"101",60,"","n"],
+["包装工程","工学",579,72674,"102",20,"","n"],
+["材料成型及控制工程","工学",582,68439,"102",223,"一流","n"],
+["材料化学","工学",579,72674,"102",46,"","n"],
+["材料类","工学",580,71205,"102",123,"一流","n"],
+["测控技术与仪器","工学",593,54059,"102",43,"","n"],
+["车辆工程","工学",593,54059,"102",90,"一流·重点","n"],
+["工业设计","工学",586,63025,"102",16,"","n"],
+["光电信息科学与工程","工学",594,52849,"102",57,"","n"],
+["化学工程与工艺","工学",579,72674,"102",147,"","n"],
+["环境工程","工学",581,69871,"102",39,"","n"],
+["机械类","工学",597,49305,"102",349,"一流","n"],
+["能源化学","理学",579,72674,"102",30,"","n"],
+["能源与动力工程","工学",590,57947,"102",118,"一流","n"],
+["农业电气化","工学",579,72674,"102",85,"","n"],
+["农业机械化及其自动化","工学",582,68439,"102",147,"一流·重点","n"],
+["农业水利工程","工学",580,71205,"102",27,"","n"],
+["生物科学类","理学",580,71205,"102",102,"","n"],
+["食品科学与工程","工学",579,72674,"102",86,"一流·特色","n"],
+["数据科学与大数据技术","工学",596,50521,"102",22,"","n"],
+["数学与应用数学","理学",584,65709,"102",40,"一流","n"],
+["统计学","理学",579,72674,"102",44,"","n"],
+["新能源材料与器件","工学",592,55298,"102",40,"","n"],
+["信息与计算科学","理学",592,55298,"102",16,"","n"],
+["应用物理学","理学",579,72674,"102",75,"一流","n"],
+["制药工程","工学",579,72674,"102",43,"一流","n"],
+["智能车辆工程","工学",592,55298,"102",70,"","n"],
+["智能运输工程","工学",579,72674,"102",70,"","n"],
+["资源环境科学","工学",580,71205,"102",64,"","n"],
+["电气工程及其自动化","工学",603,42712,"103",59,"","n"],
+["电子科学与技术","工学",599,47010,"103",54,"","n"],
+["电子信息类","工学",600,45887,"103",56,"一流","n"],
+["机器人工程","工学",599,47010,"103",40,"","n"],
+["计算机科学与技术","工学",604,41663,"103",43,"一流·重点","n"],
+["计算机科学与技术(密码学)","工学",599,47010,"103",35,"","n"],
+["物联网工程","工学",599,47010,"103",38,"","n"],
+["自动化","工学",601,44843,"103",69,"一流","n"],
+["软件工程(安全软件方向)","工学",557,106110,"104",450,"","n"],
+["软件工程(行业软件方向)","工学",560,101279,"104",450,"","n"],
+["软件工程(智能软件方向)","工学",567,90232,"104",468,"","n"],
+["软件工程(智能系统方向)","工学",558,104553,"104",450,"","n"],
+["工程力学","工学",557,106110,"105",44,"","n"],
+["建筑环境与能源应用工程","工学",532,149558,"105",50,"一流","n"],
+["土木工程","工学",518,175267,"105",102,"","n"],
+["智能建造","工学",537,140429,"105",60,"","n"],
+["动物科学","农学",539,136912,"106",70,"","n"],
+["动物药学","农学",541,133317,"106",50,"","n"],
+["动物医学","农学",553,112668,"106",105,"","n"],
+["动植物检疫","农学",537,140429,"106",50,"","n"],
+["林学","农学",532,149558,"106",58,"","n"],
+["生物工程类","工学",542,131568,"106",82,"","n"],
+["食品营养与健康","工学",546,124772,"106",24,"","n"],
+["食品质量与安全","工学",546,124772,"106",95,"一流","n"],
+["水族科学与技术","农学",533,147701,"106",30,"","n"],
+["园艺","农学",533,147701,"106",66,"","n"],
+["植物保护","农学",532,149558,"106",105,"","n"],
+["植物生产类","农学",533,147701,"106",150,"","n"],
+["智慧农业","农学",544,128153,"106",60,"","n"],
+["法医学","医学",559,102928,"107",35,"","n"],
+["临床医学","医学",567,90232,"107",212,"","n"],
+["生物医学工程","工学",564,94843,"107",48,"","n"],
+["药学","医学",559,102928,"107",50,"","n"],
+["医学检验技术","医学",563,96460,"107",13,"","n"],
+["医学影像技术","医学",564,94843,"107",23,"","n"],
+["预防医学","医学",559,102928,"107",60,"","n"],
+["智能医学工程","医学",559,102928,"107",60,"","n"],
+["护理学","医学",542,131568,"108",151,"","n"],
+["电子商务","管理学",540,135096,"109",15,"一流","n"],
+["法学","法学",574,79867,"109",6,"","n"],
+["风景园林","工学",537,140429,"109",53,"","n"],
+["工商管理","管理学",537,140429,"109",60,"","n"],
+["国际经济与贸易","经济学",545,126477,"109",18,"","n"],
+["汉语国际教育","文学",558,104553,"109",2,"","n"],
+["汉语言文学","文学",562,98064,"109",3,"","n"],
+["会计学","管理学",569,87297,"109",30,"","n"],
+["会计学(注册会计师方向)","管理学",559,102928,"109",35,"","n"],
+["金融学","经济学",549,119532,"109",27,"","n"],
+["经济学","经济学",551,116078,"109",33,"","n"],
+["旅游管理","管理学",538,138722,"109",14,"","n"],
+["日语","文学",538,138722,"109",8,"","n"],
+["商务英语","文学",555,109314,"109",6,"","n"],
+["英语","文学",559,102928,"109",8,"一流","n"],
+["知识产权","法学",555,109314,"109",9,"","n"],
+["大数据管理与应用","管理学",577,75584,"110",38,"","chembio"],
+["工业工程(中外合作办学)","管理学",526,160378,"201",91,"中外合作","c"],
+["自动化(中外合作办学)","工学",511,188315,"202",90,"中外合作","c"],
+["土木工程(中外合作办学)","工学",470,268081,"202",98,"中外合作","c"],
+["材料成型及控制工程(中外合作办学)","工学",505,199910,"201",39,"中外合作","c"],
+["电气工程及其自动化(中外合作办学)","工学",541,133317,"201",39,"中外合作","c"]
+];
+
+const HIST = [
+["思想政治教育","法学",575,14289,"101",26,"","politics"],
+["电子商务","管理学",562,20115,"102",7,"一流","n"],
+["法学","法学",579,12692,"102",21,"","n"],
+["风景园林","工学",561,20619,"102",10,"","n"],
+["工商管理","管理学",561,20619,"102",41,"","n"],
+["国际经济与贸易","经济学",563,19617,"102",11,"","n"],
+["汉语国际教育","文学",563,19617,"102",10,"","n"],
+["汉语言文学","文学",572,15474,"102",23,"","n"],
+["会计学","管理学",571,15889,"102",20,"","n"],
+["会计学(注册会计师方向)","管理学",569,16791,"102",25,"","n"],
+["金融学","经济学",563,19617,"102",20,"","n"],
+["经济学","经济学",564,19144,"102",26,"","n"],
+["考古学","历史学",563,19617,"102",13,"","n"],
+["历史学","历史学",566,18170,"102",20,"","n"],
+["旅游管理","管理学",562,20115,"102",7,"","n"],
+["日语","文学",562,20115,"102",40,"","n"],
+["商务英语","文学",561,20619,"102",23,"","n"],
+["英语","文学",563,19617,"102",26,"一流","n"],
+["知识产权","法学",573,15077,"102",4,"","n"],
+["汉语言文学(应用工程学院)","文学",551,25933,"101",10,"应用工程学院","a"],
+["会计学(应用工程学院)","管理学",554,24237,"101",20,"应用工程学院","a"]
+];
+
+/* 分数→位次对照点（来自 2025 本校录取数据，按分数降序），用于插值 */
+const RANK_REF = {
+  phys:[[604,41663],[603,42712],[601,44843],[600,45887],[599,47010],[597,49305],[596,50521],[594,52849],[593,54059],[592,55298],[590,57947],[586,63025],[584,65709],[582,68439],[581,69871],[580,71205],[579,72674],[577,75584],[574,79867],[569,87297],[567,90232],[564,94843],[563,96460],[559,102928],[557,106110],[553,112668],[549,119532],[546,124772],[542,131568],[539,136912],[537,140429],[533,147701],[532,149558],[526,160378],[518,175267],[511,188315],[505,199910],[470,268081]],
+  hist:[[579,12692],[575,14289],[573,15077],[572,15474],[571,15889],[569,16791],[566,18170],[564,19144],[563,19617],[562,20115],[561,20619],[554,24237],[551,25933]]
+};
+
+/* ================= 专业档案（河科大官方定位 + 就业分析，数据来源见页面说明） ================= */
+const PROFILE = {
+ "计算机科学与技术": {
+  "o": "国家级一流本科专业建设点、国家重点专业，有计算机科学与技术一级学科博士点支撑，是河科大的王牌专业之一。",
+  "i": "学程序设计、数据结构、操作系统、计算机网络、数据库、人工智能等，软硬件都覆盖，是计算机领域口径最宽的专业。",
+  "j": "后端/前端开发、软件测试、网络安全、人工智能；主要进入互联网、金融科技、政府机关技术部门。",
+  "p": "就业面广但两极分化明显：能力强者起薪可超8000元，普通本科常规开发岗多在6k–10k。全国本科平均起薪约6525元，毕业5年约12337元、10年约17874元。IT业连续多年是河科大毕业生主要流向行业之一。",
+  "s": "适合数学逻辑好、愿意持续自学编程的同学。技术更新快，需要终身学习，建议在校多积累项目与实习经历。",
+  "t": [
+   "高薪潜力",
+   "热门赛道",
+   "竞争激烈"
+  ]
+ },
+ "软件工程": {
+  "o": "计算机类下的国家一流专业建设点，河科大设有安全、行业、智能软件、智能系统等多个培养方向。",
+  "i": "侧重软件开发的工程化方法，学习编程、软件测试、项目管理、系统架构，强调动手实践与团队协作。",
+  "j": "软件开发工程师、测试工程师、项目经理；面向软件企业、互联网公司、各行业信息技术部门。",
+  "p": "软件行业人才需求稳定，起薪约6k–8k，5年后可达1.5万元以上。河科大软件工程按方向招生，智能软件方向分数较高，报考时注意区分培养方向与学费。",
+  "s": "适合喜欢动手写代码、能适应项目节奏的同学；该专业招生人数多，是河科大录取人数最多的专业之一。",
+  "t": [
+   "就业面广",
+   "实践性强"
+  ]
+ },
+ "数据科学与大数据技术": {
+  "o": "计算机类新兴专业，依托计算机学科博士点，2018年前后设立，顺应大数据产业需求。",
+  "i": "学统计学、机器学习、数据挖掘、数据库与大数据平台技术，培养从海量数据中提取价值的能力。",
+  "j": "数据分析师、数据挖掘工程师、商业智能顾问；金融、电商、医疗、制造等行业都需要。",
+  "p": "全球数据量激增，岗位需求旺盛，全国本科起薪约7000–9000元，资深数据分析岗位薪资更高。属于当前就业市场的成长型赛道。",
+  "s": "需要较好的数学和统计基础；建议在校强化SQL、Python和业务流程理解。",
+  "t": [
+   "新兴赛道",
+   "需求旺盛"
+  ]
+ },
+ "电气工程及其自动化": {
+  "o": "河科大传统优势工科，电气工程为河南省重点学科，工科实力强劲。",
+  "i": "学电路、电机学、电力系统分析、继电保护、自动控制等，研究电力设备与电网的运行与控制。",
+  "j": "国家电网、南方电网、发电厂、电力设计院，以及电气设备制造、新能源车企等。",
+  "p": "2026年本科绿牌专业，就业相关度和满意度均达87%，2025届平均月薪约7160元。电网系统工作稳定、待遇好，是河南考生报考的热门选择。全国本科起薪约5674元，5年约10738元。",
+  "s": "适合物理基础扎实、追求稳定就业的同学；进电网需关注提前批和校园招聘。",
+  "t": [
+   "绿牌专业",
+   "国家电网",
+   "就业稳定"
+  ]
+ },
+ "机械类": {
+  "o": "河科大的王牌与招牌。机械工程学科评估B-，有博士点；机械设计制造及其自动化是轴承方向的国家级一流专业，学校被誉为轴承行业「黄埔军校」。",
+  "i": "学机械设计、机械制造、数控技术、机电传动等，是典型的「工科万金油」，就业口径极宽。",
+  "j": "装备制造、汽车、航空航天、新能源等行业，从事设计、制造、工艺与设备管理。",
+  "p": "学校王牌专业机械设计制造及其自动化(轴承方向)近5年就业率100%，供需比约1:6，2025届起薪约8000–12000元，最高年薪超25万，近四成毕业生进入国企央企。全国机械类起薪约5299元，5年约11307元。",
+  "s": "适合动手能力强、能适应制造业环境的同学；河科大机械在省内就业认可度极高，性价比突出。",
+  "t": [
+   "王牌专业",
+   "就业率100%",
+   "国企央企"
+  ]
+ },
+ "车辆工程": {
+  "o": "国家级一流本科专业建设点、国家重点专业，依托机械工程博士点，是河科大的强势工科。",
+  "i": "学汽车构造、汽车理论、底盘与车身设计、新能源汽车技术等，覆盖整车与零部件研发。",
+  "j": "整车及零部件制造企业、新能源汽车公司，从事研发、设计、测试与生产管理。",
+  "p": "2025届平均月薪约7247元，新能源与智能汽车产业带来大量岗位增长。河南本地汽车产业(郑州、洛阳)基础好，就业区位便利。",
+  "s": "对汽车感兴趣、逻辑扎实的男生较多；建议关注新能源与智能网联方向。",
+  "t": [
+   "国家级一流",
+   "新能源车",
+   "就业良好"
+  ]
+ },
+ "材料成型及控制工程": {
+  "o": "国家级一流本科专业建设点、国家重点专业，依托材料科学与工程(河南省双一流创建学科)。",
+  "i": "学材料成形工艺、模具设计、焊接与塑性成形等，研究「材料如何变成零件」，是制造业主干专业。",
+  "j": "装备制造、汽车、航空航天、模具行业，从事工艺设计、模具开发、质量检测。",
+  "p": "河科大材料学科实力强(ESI全球前1%)，制造业对成型工艺人才需求稳定。就业面偏传统制造，国企机会较多。",
+  "s": "适合愿意深入制造工艺、能吃苦的同学；该专业录取人数较多，分数相对温和。",
+  "t": [
+   "国家级一流",
+   "制造业主干"
+  ]
+ },
+ "材料类": {
+  "o": "依托材料科学与工程学科，该学科为河南省「双一流」创建学科、ESI全球前1%，含金属材料工程等国家级一流专业。",
+  "i": "学材料结构、性能、制备与加工，涵盖金属材料、无机非金属材料、高分子等方向。",
+  "j": "新材料、冶金、航空航天、半导体、新能源材料企业，从事研发、工艺与检测。",
+  "p": "材料是河科大最强学科之一，升学深造氛围好，适合读研。本科直接就业多在制造与冶金行业，起薪一般，读研后发展空间明显提升。",
+  "s": "建议有读研规划的同学重点考虑；本科就业环境相对传统，要做好心理预期。",
+  "t": [
+   "双一流学科",
+   "适合深造",
+   "ESI前1%"
+  ]
+ },
+ "能源与动力工程": {
+  "o": "国家级一流本科专业建设点，动力工程及工程热物理为河科大博士点学科。",
+  "i": "学热力学、流体力学、锅炉与汽轮机、制冷与新能源利用等，研究能量的转换与高效利用。",
+  "j": "电力、能源、暖通、新能源汽车热管理、制冷空调等行业。",
+  "p": "能源转型背景下，新能源与储能方向需求增长。就业面向电力与制造业，工作较稳定。全国起薪处于工科中等水平。",
+  "s": "适合物理基础好、关注能源行业的同学。",
+  "t": [
+   "国家级一流",
+   "能源行业"
+  ]
+ },
+ "自动化": {
+  "o": "国家级一流本科专业建设点，依托控制科学与工程学科(河南省重点学科、博士点)。",
+  "i": "学控制理论、单片机、PLC、机器人控制、过程控制等，研究让机器「自动」运行的技术。",
+  "j": "电子电气设备制造、工业自动化、智能制造、机器人企业，从事控制系统设计与调试。",
+  "p": "2026年首次跻身绿牌专业，月薪约7573元。智能制造升级带动需求，就业相关度高，属于应用面广的工科专业。",
+  "s": "适合喜欢控制与编程、动手能力强的同学；就业适应性广。",
+  "t": [
+   "绿牌专业",
+   "智能制造"
+  ]
+ },
+ "电子信息类": {
+  "o": "含电子信息工程等国家级一流专业，依托信息与通信工程、电子科学与技术学科。",
+  "i": "学电路、信号与系统、通信原理、嵌入式系统等，研究电子信息的获取、处理与传输。",
+  "j": "通信设备、智能硬件、消费电子、半导体企业，适配5G、芯片研发等方向。",
+  "p": "电子信息产业持续发展，华为、小米等企业需求大，一线城市起薪约10万–15万元/年，经验增长后空间较大。",
+  "s": "适合电子与物理基础好、愿意钻研硬件与信号的同学。",
+  "t": [
+   "电子信息",
+   "5G芯片"
+  ]
+ },
+ "计算机科学与技术(密码学)": {
+  "o": "计算机科学与技术专业下的特色方向，服务于网络安全与密码应用人才需求。",
+  "i": "在计算机系统学习基础上，侧重密码学原理、网络安全、信息安全协议等。",
+  "j": "网络安全、密码应用、信息安全测评，面向政府、金融、军工等涉密与安全要求高的单位。",
+  "p": "网络安全人才缺口大，密码与信创产业受政策推动，属于计算机领域的高门槛细分方向，就业质量较好。",
+  "s": "适合数学功底扎实、对信息安全感兴趣的同学；分数比普通计算机方向略低。",
+  "t": [
+   "网络安全",
+   "特色方向"
+  ]
+ },
+ "物联网工程": {
+  "o": "计算机类专业，依托计算机与信息学科，培养物联网系统设计与开发人才。",
+  "i": "学传感器、嵌入式、无线网络、云计算等，研究「万物互联」的软硬件系统。",
+  "j": "智能家居、工业物联网、智慧城市、车联网等领域，从事系统开发与集成。",
+  "p": "物联网应用广泛，就业面较宽，与计算机、电子信息专业有一定重叠，需靠项目经验提升竞争力。",
+  "s": "适合软硬件都愿意学的同学；建议在校多参与物联网实践项目。",
+  "t": [
+   "应用广泛",
+   "软硬结合"
+  ]
+ },
+ "临床医学": {
+  "o": "河科大临床医学为ESI全球前1%学科，有临床医学专业博士点，医学院底蕴深厚(原洛阳医学高等专科学校)。",
+  "i": "学基础医学、诊断学、内外妇儿等临床课程，培养疾病诊断与治疗能力，学制五年。",
+  "j": "各级医院临床科室、医疗卫生机构，从事医疗、教学与科研。",
+  "p": "2025年执业医师缺口约20万人，就业稳定、职业受尊重，但培养周期长(本科5年+规培3年)。本科起薪约5418元，5年约11136元，硕士进三甲医院优势明显，收入随职称与经验持续增长。",
+  "s": "适合有耐心、愿意长期投入、责任心强的同学；学业压力大、周期长，报考需有心理准备。",
+  "t": [
+   "ESI前1%",
+   "就业稳定",
+   "培养周期长"
+  ]
+ },
+ "医学影像技术": {
+  "o": "依托临床医学与医学技术学科，培养医学影像检查与技术人才。",
+  "i": "学医学影像设备原理、影像诊断基础、CT/MRI/超声技术等，侧重技术操作。",
+  "j": "医院影像科、超声科，以及医疗设备企业，从事影像检查、设备应用与维护。",
+  "p": "医疗影像检查需求大，技术岗位就业较稳定，相比临床医学培养周期短、压力小。适合想进医院但不想读太久的同学。",
+  "s": "注意这是技术类专业，不能考执业医师；介意者请选择临床医学。",
+  "t": [
+   "就业稳定",
+   "周期较短"
+  ]
+ },
+ "药学": {
+  "o": "依托医学与化学学科，培养药物研发、生产与合理用药人才。",
+  "i": "学药物化学、药理学、药剂学、药物分析等，研究药物的作用与制备。",
+  "j": "制药企业、医院药房、药品检验与监管机构，从事研发、生产、质检与药学服务。",
+  "p": "医药行业稳定增长，就业面向制药与医疗机构；研发岗多需读研，本科多从事生产、质检与销售。",
+  "s": "适合化学基础好、细心严谨的同学；有读研打算发展空间更大。",
+  "t": [
+   "医药行业",
+   "稳定"
+  ]
+ },
+ "会计学": {
+  "o": "河科大传统优势文科专业，招生人数多，是经管类中的热门。",
+  "i": "学财务会计、管理会计、审计、财务管理、税法等，掌握企业资金运作与核算。",
+  "j": "企业财务、会计师事务所、银行与税务等机构，从事财务、审计、税务工作。",
+  "p": "就业岗位稳定但起薪一般：全国本科起薪约4863元，5年约10211元。税务局、财政局每年大量招录，考公考编有岗位优势；注册会计师方向含金量高。",
+  "s": "适合细心、对数字敏感的同学；建议在校考初级会计、CPA等证书提升竞争力。",
+  "t": [
+   "考公热门",
+   "就业稳定",
+   "需考证"
+  ]
+ },
+ "金融学": {
+  "o": "经济学类专业，河科大在豫招生分数适中，是文科考生关注的热门。",
+  "i": "学货币银行、证券投资、国际金融、风险管理等，研究资金的配置与运作。",
+  "j": "银行、证券、基金、保险等金融机构，以及企事业单位财务部门。",
+  "p": "金融业薪资上限高但竞争激烈，一线城市金融分析岗位年薪可达15万–30万元，普通本科多从银行、销售等岗位起步。名校与实习背景影响较大。",
+  "s": "适合对金融市场感兴趣、数学与沟通能力强的同学；建议考CFA/基金从业等证书并重视实习。",
+  "t": [
+   "高薪上限",
+   "竞争激烈"
+  ]
+ },
+ "法学": {
+  "o": "河科大法学为校级重点建设专业，在历史类与物理类均有招生。",
+  "i": "学民法、刑法、行政法、商法等，训练法律思维与实务能力。",
+  "j": "公检法司等体制内岗位，以及律所、企业法务、知识产权服务等。",
+  "p": "文科考公主力专业，公检法司定向招录岗位多；但法律职业资格考试难度大，本科直接就业竞争压力高，读研与过法考后发展更好。",
+  "s": "适合逻辑清晰、表达能力强、愿意长期备考的同学；报考前了解法考与考公的现实要求。",
+  "t": [
+   "考公热门",
+   "需法考"
+  ]
+ },
+ "汉语言文学": {
+  "o": "中国语言文学类专业，河科大文科传统专业。",
+  "i": "学古代/现代文学、语言学、写作、文学理论等，培养文字表达与人文素养。",
+  "j": "机关文秘、教师、新媒体运营、编辑出版、文案策划等。",
+  "p": "国考省考招录岗位在文科中名列前茅，考公考编优势明显；也可从事教育、新媒体等工作，就业面宽但需靠文字能力取胜。",
+  "s": "适合喜欢阅读写作、文字功底好的同学；建议在校多练笔、积累作品。",
+  "t": [
+   "考公热门",
+   "文字能力"
+  ]
+ },
+ "思想政治教育": {
+  "o": "马克思主义理论类专业，河科大马克思主义学院为河南省首批重点马克思主义学院。",
+  "i": "学马克思主义理论、思想政治教育原理与方法、政治学等，培养思政教育人才。",
+  "j": "中小学思政教师、党政机关、企事业单位党务与宣传岗位。",
+  "p": "考公考编与教师编有专业对口优势，就业方向稳定；适合有从政、从教规划的同学。",
+  "s": "该专业在历史类按专业组101招生，需选考思想政治；报考前确认选科要求。",
+  "t": [
+   "考公考编",
+   "需选政治"
+  ]
+ },
+ "建筑环境与能源应用工程": {
+  "o": "国家级一流本科专业建设点，依托土木工程与热能工程学科。",
+  "i": "学供热、通风、空调、建筑节能等，研究建筑内部环境与能源系统。",
+  "j": "建筑设计院、暖通空调企业、房地产与物业，从事暖通设计、施工与运行管理。",
+  "p": "就业面向建筑与设备行业，与房地产景气度相关；专业为国家级一流，行业内认可度较好。",
+  "s": "适合物理基础好、愿意从事工程设计的同学。",
+  "t": [
+   "国家级一流",
+   "工程应用"
+  ]
+ },
+ "土木工程": {
+  "o": "河科大传统工科，拥有土木工程一级学科硕士点。",
+  "i": "学结构力学、混凝土结构、施工技术、工程管理等，研究房屋与基础设施的建造。",
+  "j": "建筑施工企业、设计院、房地产、市政工程，从事施工、设计与项目管理。",
+  "p": "受房地产与基建行业调整影响，本科就业环境较前些年承压，起薪一般、工作地点流动性大。建议关注智能建造、基础设施等新方向。",
+  "s": "适合能适应工地环境、动手能力的同学；报考前理性看待行业周期。",
+  "t": [
+   "行业调整",
+   "需理性看待"
+  ]
+ },
+ "食品科学与工程": {
+  "o": "国家级一流本科专业建设点，食品科学与工程为河科大博士点学科、ESI全球前1%学科。",
+  "i": "学食品化学、食品工艺、食品机械、食品安全等，研究食品的加工与品质控制。",
+  "j": "食品制造企业、质检机构、市场监管部门，从事研发、生产、品控与检验。",
+  "p": "食品行业民生属性强、就业稳定，头部企业研发岗多需读研。河科大食品学科实力强(ESI前1%)，深造与就业都有支撑。",
+  "s": "适合生物化学基础好、愿意在食品行业发展的同学；有读研规划更佳。",
+  "t": [
+   "国家级一流",
+   "ESI前1%",
+   "稳定"
+  ]
+ },
+ "农业机械化及其自动化": {
+  "o": "国家级一流本科专业建设点、国家重点专业，依托农业工程博士点学科，是河科大的特色王牌。",
+  "i": "学农业机械设计、机械制造、自动化控制等，研究农业装备的机械化与智能化。",
+  "j": "农机装备企业、农业部门、制造行业，从事农机研发、设计、推广与管理。",
+  "p": "国家推进农业现代化与农机装备升级，政策扶持力度大，人才需求稳定。河科大该专业全国知名，升学与就业渠道畅通。",
+  "s": "适合对农业装备感兴趣、动手能力强的同学；分数相对温和，性价比高。",
+  "t": [
+   "国家级一流",
+   "政策扶持",
+   "特色王牌"
+  ]
+ },
+ "大数据管理与应用": {
+  "o": "管理科学与工程类专业，依托管理科学与工程博士点，是新设的交叉型专业。",
+  "i": "学管理学、数据分析、数据库、商务智能等，培养用数据辅助管理决策的能力。",
+  "j": "企业数据运营、商业分析、信息管理部门，以及咨询、金融机构。",
+  "p": "数字化转型推动数据管理岗位需求，属于管理+数据的复合赛道，就业面较宽。该专业在物理类110组招生，分数较高。",
+  "s": "适合既有管理兴趣又有数据敏感度的同学；注意该专业需选考化学+生物。",
+  "t": [
+   "交叉专业",
+   "数字化转型"
+  ]
+ },
+ "测控技术与仪器": {
+  "o": "仪器类专业，依托控制科学与工程学科，是河科大工科的传统方向。",
+  "i": "学传感与检测技术、精密仪器、自动控制、误差理论等，研究测量与控制。",
+  "j": "仪器仪表、智能制造、汽车电子、航空航天等领域，从事检测、仪器开发与技术应用。",
+  "p": "就业面偏制造业与检测行业，应用性强、工作稳定，属于「越老越吃香」的技术型专业。",
+  "s": "适合动手能力强、细致严谨的同学。",
+  "t": [
+   "应用性强",
+   "就业稳定"
+  ]
+ },
+ "光电信息科学与工程": {
+  "o": "电子信息类专业，依托光学工程与电子学科。",
+  "i": "学光学、激光原理、光电检测、光纤通信等，研究光与电的转换与应用。",
+  "j": "光电企业、半导体、激光加工、通信设备等行业，从事研发与技术应用。",
+  "p": "光电产业(显示、激光、光通信)发展较快，就业面向高新技术企业，读研后发展空间更大。",
+  "s": "适合物理(尤其光学)基础扎实、愿意深造的同学。",
+  "t": [
+   "光电产业",
+   "适合深造"
+  ]
+ },
+ "机器人工程": {
+  "o": "自动化类新兴专业，依托控制科学与工程与机械工程学科。",
+  "i": "学机器人机构、运动控制、机器视觉、人工智能等，培养机器人系统设计开发能力。",
+  "j": "工业机器人、服务机器人、智能制造企业，从事机器人研发、调试与集成。",
+  "p": "智能制造与机器人产业高速增长，人才需求旺盛，属于国家重点发展的方向，就业前景较好。",
+  "s": "适合对机器人与AI感兴趣、综合基础好的同学；建议多参与竞赛与项目。",
+  "t": [
+   "新兴热门",
+   "智能制造"
+  ]
+ },
+ "临床医学(法医学)": {},
+ "法医学": {
+  "o": "依托医学院与临床医学学科，培养法医学鉴定人才。",
+  "i": "学基础医学、临床医学与法医学课程，研究死因鉴定、伤害鉴定等法医技术。",
+  "j": "公安、检察院、司法鉴定机构，从事法医鉴定与刑侦技术工作。",
+  "p": "就业方向相对专门，多进入政法系统，工作稳定但岗位数量有限，需通过相关招录考试。",
+  "s": "适合对法医职业有明确兴趣、心理素质好的同学；报考前了解职业特点。",
+  "t": [
+   "政法系统",
+   "方向专门"
+  ]
+ },
+ "护理学": {
+  "o": "依托医学院，培养护理与健康管理人才。",
+  "i": "学基础护理、临床护理、健康评估等，护理学就业率高、实用性强。",
+  "j": "各级医院、康养机构、社区卫生服务中心，从事临床护理与健康服务。",
+  "p": "本科护理就业率超96%，人口老龄化带来长期需求，工作稳定但强度较大。男生护理在急诊、ICU等科室较受欢迎。",
+  "s": "适合有责任心、能适应轮班与高强度工作的同学。",
+  "t": [
+   "就业率高",
+   "需求稳定"
+  ]
+ },
+ "电子商务": {
+  "o": "国家级一流本科专业建设点，河科大经管类优势专业。",
+  "i": "学市场营销、网络营销、电商平台运营、数据分析等，研究线上商业运作。",
+  "j": "电商企业、互联网公司、传统企业电商部门，从事运营、策划、数据分析。",
+  "p": "电商行业成熟，岗位多样但竞争充分，起薪一般，更看重实操经验与数据能力。河科大该专业为国家级一流，认可度较好。",
+  "s": "适合对互联网商业感兴趣、愿意动手实践的同学。",
+  "t": [
+   "国家级一流",
+   "实践导向"
+  ]
+ },
+ "经济学": {
+  "o": "经济学类专业，河科大文理兼收。",
+  "i": "学微观/宏观经济学、计量经济学、金融学、统计学等，研究经济运行规律。",
+  "j": "金融机构、政府部门、企业战略与分析岗位，或继续深造。",
+  "p": "经济学偏理论，本科直接就业对口岗位不多，适合考研或进入金融、咨询行业。考公也有一定岗位。",
+  "s": "适合数学基础好、有读研规划的同学。",
+  "t": [
+   "适合深造",
+   "考公可报"
+  ]
+ },
+ "国际经济与贸易": {
+  "o": "经济与贸易类专业。",
+  "i": "学国际贸易实务、报关、国际金融、商务英语等，培养跨境贸易能力。",
+  "j": "外贸企业、跨境电商、报关行、外资企业，从事外贸业务与国际商务。",
+  "p": "就业与外贸景气度相关，跨境电商发展带来新机会，起薪一般，能力(尤其外语)差异影响大。",
+  "s": "适合外语较好、愿意从事外贸业务的同学。",
+  "t": [
+   "外贸行业",
+   "重外语"
+  ]
+ },
+ "旅游管理": {
+  "o": "工商管理类专业，洛阳文旅资源丰富，专业有地域优势。",
+  "i": "学旅游学、酒店管理、旅游规划、导游业务等。",
+  "j": "文旅企业、酒店、景区、旅游行政部门，从事运营与管理。",
+  "p": "文旅行业恢复发展，洛阳作为旅游城市有区位优势，但行业薪资整体不高、岗位流动性较大。",
+  "s": "适合喜欢旅游与服务行业、性格开朗的同学。",
+  "t": [
+   "文旅行业",
+   "地域优势"
+  ]
+ }
+};
+
+const CAT_PROFILE = {
+ "工学": {
+  "o": "河科大工科实力突出，多个专业为国家级一流本科专业建设点，工程学、材料科学等学科进入ESI全球前1%。",
+  "i": "工科专业强调理论基础与工程实践，培养Design、制造、运行与技术应用能力。",
+  "j": "主要面向制造业、信息技术、能源、建筑等行业，从事技术研发、设计、生产与技术管理。",
+  "p": "工科整体就业面宽、需求稳定，河科大在省内制造业与国企中认可度高，近四成毕业生进入国企央企。具体薪资因专业与行业差异较大。",
+  "s": "适合动手能力强、逻辑扎实的同学；河科大工科性价比高，值得重点考虑。",
+  "t": [
+   "工科优势",
+   "就业面宽"
+  ]
+ },
+ "医学": {
+  "o": "河科大医学底蕴深厚(源于原洛阳医学高等专科学校)，临床医学为ESI全球前1%学科，有博士点支撑。",
+  "i": "医学专业学习周期长、专业性强，培养临床诊疗、预防与技术应用能力。",
+  "j": "各级医院、医疗卫生机构、医药企业，从事医疗、技术与公共卫生工作。",
+  "p": "医疗行业属社会刚需，就业稳定、职业受尊重，但培养周期长、学习压力大。执业资格与学历对发展影响显著。",
+  "s": "适合有耐心、责任心强、愿意长期投入的同学；报考前充分了解学制与职业特点。",
+  "t": [
+   "社会刚需",
+   "周期较长"
+  ]
+ },
+ "农学": {
+  "o": "河科大农科特色鲜明，农业工程、作物学、园艺学等为博士点学科，农业科学进入ESI全球前1%。",
+  "i": "农学类专业研究动植物生产、农业技术与现代农业管理。",
+  "j": "农业部门、涉农企业、科研院所，从事技术推广、生产管理与研发。",
+  "p": "国家重视粮食安全与农业现代化，政策扶持力度大，升学深造与考公有优势，本科直接就业岗位相对传统。",
+  "s": "适合对农业感兴趣、有读研或考公规划的同学；分数相对温和，性价比高。",
+  "t": [
+   "政策扶持",
+   "适合深造"
+  ]
+ },
+ "理学": {
+  "o": "河科大理科基础扎实，数学、物理等多个专业为国家级一流本科专业建设点。",
+  "i": "理学专业研究自然科学基本规律，强调数学与逻辑训练。",
+  "j": "教育、科研、金融、信息技术等领域，或继续读研深造。",
+  "p": "理科偏基础，本科就业对口岗位有限，适合考研或转向教育、数据、金融等方向。数学、统计类在量化与数据岗位有优势。",
+  "s": "适合基础扎实、有读研规划的同学；师范方向可考虑教师编制。",
+  "t": [
+   "基础学科",
+   "适合深造"
+  ]
+ },
+ "文学": {
+  "o": "河科大文学类专业包括中国语言文学、外国语言文学等，英语为国家级一流本科专业建设点。",
+  "i": "文学类专业培养语言文字能力、跨文化沟通与人文素养。",
+  "j": "教育、机关文秘、新媒体、翻译、编辑出版等方向。",
+  "p": "汉语言文学在考公考编中岗位多，英语可从事教育、外贸、翻译；文科就业更依赖个人文字与沟通能力，考公是重要路径。",
+  "s": "适合文字功底好、表达能力强的同学；建议早规划考公、教师编或考研。",
+  "t": [
+   "考公优势",
+   "重表达能力"
+  ]
+ },
+ "管理学": {
+  "o": "河科大管理学科有博士点支撑，会计学、电子商务、大数据管理与应用等专业各有特色。",
+  "i": "管理学专业研究组织运营、资源配置与管理决策。",
+  "j": "企业职能部门、金融机构、政府机关、咨询行业，从事财务、运营、人力资源与管理。",
+  "p": "管理类专业就业面宽但起薪普遍一般，发展更依赖证书、实习与综合能力。考公考编岗位较多。",
+  "s": "适合沟通与组织能力强的同学；建议在校积累实习并考取相关证书。",
+  "t": [
+   "就业面宽",
+   "重实践"
+  ]
+ },
+ "经济学": {
+  "o": "河科大经济学科涵盖经济学、金融学、国际经济与贸易等专业。",
+  "i": "经济学专业研究经济运行、金融市场的规律与分析方法。",
+  "j": "金融机构、政府经济部门、企业分析岗位。",
+  "p": "经济金融类上限高但竞争强，本科多从基础岗位起步，名校背景与实习经历影响较大；考研能明显提升竞争力。",
+  "s": "适合数学与逻辑较好、有读研或深造规划的同学。",
+  "t": [
+   "竞争较强",
+   "适合深造"
+  ]
+ },
+ "法学": {
+  "o": "河科大法学类包括法学、知识产权、思想政治教育等专业。",
+  "i": "法学专业训练法律思维、逻辑分析与实务能力。",
+  "j": "公检法司等体制内岗位、律所、企业法务、知识产权服务。",
+  "p": "法学是文科考公主力专业，但法律职业资格考试难度高，本科直接就业竞争压力较大，读研与持证后发展更顺。",
+  "s": "适合逻辑清晰、表达能力强、愿意长期备考的同学。",
+  "t": [
+   "考公热门",
+   "需法考"
+  ]
+ },
+ "历史学": {
+  "o": "河科大历史学类包括历史学、考古学等专业。",
+  "i": "历史学专业研究人类社会发展历程，培养史料分析与研究能力。",
+  "j": "教育、文博考古、文化部门、研究与出版机构。",
+  "p": "就业面相对窄，多面向教育与文化文博领域，适合考研深造或考教师编、文博系统岗位。",
+  "s": "适合真正热爱历史、愿意深造的同学；报考需考虑就业路径。",
+  "t": [
+   "适合深造",
+   "就业面较窄"
+  ]
+ }
+};
+
+/* ================= 状态与工具 ================= */
+let state = { type:'phys', mode:'score', chem:'yes', risk:1.25, incCoop:false };
+
+function scoreToRank(score, type){
+  const t = RANK_REF[type];
+  if(score>=t[0][0]) return t[0][1];
+  if(score<=t[t.length-1][0]) {
+    const a=t[t.length-2], b=t[t.length-1];
+    const r = b[1] + (a[1]-b[1])*(score-b[0])/(a[0]-b[0]);
+    return Math.round(r);
+  }
+  for(let i=0;i<t.length-1;i++){
+    const a=t[i], b=t[i+1];
+    if(score<=a[0] && score>=b[0]){
+      return Math.round(a[1] + (b[1]-a[1])*(a[0]-score)/(a[0]-b[0]));
+    }
+  }
+  return t[t.length-1][1];
+}
+function rankToScore(rank, type){
+  const t = RANK_REF[type];
+  if(rank<=t[0][1]) return t[0][0];
+  if(rank>=t[t.length-1][1]) return t[t.length-1][0];
+  for(let i=0;i<t.length-1;i++){
+    const a=t[i], b=t[i+1];
+    if(rank>=a[1] && rank<=b[1]){
+      return Math.round(a[0] + (b[0]-a[0])*(rank-a[1])/(b[1]-a[1]));
+    }
+  }
+  return t[t.length-1][0];
+}
+function probOf(k){
+  if(k<=0.7) return 96;
+  if(k<=0.85) return Math.round(96-(k-0.7)/0.15*16);
+  if(k<=1.0) return Math.round(80-(k-0.85)/0.15*25);
+  if(k<=1.15) return Math.round(55-(k-1.0)/0.15*25);
+  if(k<=1.3) return Math.round(30-(k-1.15)/0.15*18);
+  return Math.max(5, Math.round(12-(k-1.3)/0.4*7));
+}
+function fmt(n){return n.toLocaleString('zh-CN')}
+
+/* ================= 交互绑定 ================= */
+document.querySelectorAll('.tab').forEach(el=>el.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  state.type=el.dataset.type;
+  document.getElementById('subjField').style.display = state.type==='phys'?'block':'none';
+  updateConvHint();
+}));
+
+document.querySelectorAll('#modeSeg button').forEach(el=>el.addEventListener('click',()=>{
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  state.mode=el.dataset.mode;
+  const isScore=state.mode==='score';
+  document.getElementById('inputLbl').textContent=isScore?'你的高考分数':'你的全省位次';
+  document.getElementById('unitTxt').textContent=isScore?'分':'名';
+  document.getElementById('valInput').placeholder=isScore?'例如 580':'例如 80000';
+  document.getElementById('valInput').value='';
+  updateConvHint();
+}));
+
+document.querySelectorAll('#chemSeg button').forEach(el=>el.addEventListener('click',()=>{
+  document.querySelectorAll('#chemSeg button').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  state.chem=el.dataset.chem;
+}));
+
+document.getElementById('incCoop').addEventListener('change',e=>state.incCoop=e.target.checked);
+document.getElementById('riskRange').addEventListener('input',e=>{
+  state.risk=Number(e.target.value)/100;
+  document.getElementById('riskVal').textContent=state.risk.toFixed(2)+'×';
+});
+
+const valInput=document.getElementById('valInput');
+valInput.addEventListener('input',updateConvHint);
+function updateConvHint(){
+  const v=Number(valInput.value);
+  const hint=document.getElementById('convHint');
+  if(!v||v<=0){ hint.innerHTML='输入'+(state.mode==='score'?'分数':'位次')+'后自动换算'; return; }
+  if(state.mode==='score'){
+    hint.innerHTML='约等于全省位次 <b>'+fmt(scoreToRank(v,state.type))+'</b> 名';
+  }else{
+    hint.innerHTML='约等于 <b>'+rankToScore(v,state.type)+'</b> 分';
+  }
+}
+
+document.getElementById('goBtn').addEventListener('click',runRecommend);
+
+/* ================= 推荐核心 ================= */
+function runRecommend(){
+  const raw=Number(valInput.value);
+  if(!raw||raw<=0){ alert('请输入有效的'+(state.mode==='score'?'分数':'位次')); valInput.focus(); return; }
+  const userRank = state.mode==='score' ? scoreToRank(raw,state.type) : raw;
+  const userScore = state.mode==='score' ? raw : rankToScore(raw,state.type);
+  let data = state.type==='phys'?PHYS:HIST;
+
+  // 选科过滤
+  data = data.filter(p=>{
+    const t=p[7];
+    if(t==='c') return state.incCoop; // 中外合作需勾选
+    if(state.type==='phys'){
+      if(state.chem==='no' && (t==='n' && ['102','103','104','105','106','107','108','110'].includes(p[4]))) return false;
+      if(t==='chembio' && state.chem!=='yes') return false;
+      if(t==='chembio') return true; // 需要化学+生物，提示见卡片
+    }
+    return true;
+  });
+
+  const tiers={chong:[],wen:[],bao:[]};
+  data.forEach(p=>{
+    const k=userRank/p[3];
+    if(k>state.risk) return;
+    const prob=probOf(k);
+    const item={name:p[0],cat:p[1],score:p[2],rank:p[3],group:p[4],plan:p[5],tag:p[6],type:p[7],k,prob};
+    if(k<=0.85) tiers.bao.push(item);
+    else if(k<=1.02) tiers.wen.push(item);
+    else tiers.chong.push(item);
+  });
+
+  const byProb=(a,b)=>b.prob-a.prob;
+  tiers.bao.sort(byProb); tiers.wen.sort(byProb); tiers.chong.sort((a,b)=>a.prob-b.prob);
+
+  renderSummary(userScore,userRank,tiers);
+  renderTiers(tiers);
+  document.getElementById('result').hidden=false;
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderSummary(score,rank,tiers){
+  const total=tiers.bao.length+tiers.wen.length+tiers.chong.length;
+  document.getElementById('summary').innerHTML=`
+    <div class="sum-card sum-main">
+      <div class="lbl">你的测算位次</div>
+      <div class="big">${fmt(rank)} <small>名 · 约 ${score} 分</small></div>
+    </div>
+    <div class="sum-card"><div class="lbl">🟠 冲刺可选</div><div class="big">${tiers.chong.length} <small>个专业</small></div></div>
+    <div class="sum-card"><div class="lbl">🔵 稳妥可选</div><div class="big">${tiers.wen.length} <small>个专业</small></div></div>
+    <div class="sum-card"><div class="lbl">🟢 保底可选</div><div class="big">${tiers.bao.length} <small>个专业</small></div></div>`;
+}
+
+function getProfile(m){
+  // 精确匹配专业名（去掉括号方向后也尝试一次）
+  if(PROFILE[m.name]) return PROFILE[m.name];
+  const base=m.name.replace(/\(.*?\)/g,'');
+  if(PROFILE[base]) return PROFILE[base];
+  return CAT_PROFILE[m.cat] || CAT_PROFILE['工学'];
+}
+function cardHTML(m,cls){
+  const tags=[];
+  if(m.tag && m.tag!=='中外合作' && m.tag!=='应用工程学院'){
+    tags.push(`<span class="mtag gold">${m.tag}</span>`);
+  }
+  if(m.type==='c') tags.push(`<span class="mtag coop">中外合作</span>`);
+  if(m.type==='a') tags.push(`<span class="mtag">应用工程学院</span>`);
+  if(m.type==='chembio') tags.push(`<span class="mtag coop">需化学+生物</span>`);
+  if(m.name.includes('密码学')) tags.push(`<span class="mtag">密码学方向</span>`);
+  const pf=getProfile(m);
+  const secs=[
+    ['🏛','河科大专业实力',pf.o],
+    ['📚','学什么',pf.i],
+    ['💼','就业方向',pf.j],
+    ['📈','就业前景',pf.p],
+    ['🎯','报考提示',pf.s]
+  ].map(([ic,h,txt])=>txt?`<div class="dp-sec"><div class="dp-h"><span class="ic">${ic}</span>${h}</div><div class="dp-txt">${txt}</div></div>`:'').join('');
+  const tagHtml=(pf.t&&pf.t.length)?`<div class="dp-tags">${pf.t.map(t=>`<span class="dp-tag">${t}</span>`).join('')}</div>`:'';
+  return `<div class="mcard" data-name="${m.name}">
+    <div class="mrow1">
+      <div><div class="mname">${m.name}</div><div class="mtags"><span class="mtag">${m.cat}</span>${tags.join('')}</div></div>
+      <div class="prob ${cls}">${m.prob}<small>%</small></div>
+    </div>
+    <div class="bar"><i style="width:${m.prob}%"></i></div>
+    <div class="mrow2"><span>2025最低 <b>${m.score}分</b> / <b>${fmt(m.rank)}名</b></span><span>组${m.group} · 录${m.plan}人</span></div>
+    <button class="detail-btn" type="button">专业分析 <span class="arrow">▾</span></button>
+    <div class="detail-panel">${secs}${tagHtml}<div class="dp-note">就业数据参考河科大就业质量报告及公开薪酬统计，为全国/行业参考值，非本校承诺；报考请以官方招生章程为准。</div></div>
+  </div>`;
+}
+
+function renderTiers(t){
+  const cfg=[
+    ['chong','冲刺','prob.c1','录取概率较低，可作为冲刺志愿'],
+    ['wen','稳妥','prob.c2','与你位次匹配度较高，建议重点考虑'],
+    ['bao','保底','prob.c3','录取把握较大，用于保障下限']
+  ];
+  document.getElementById('tiers').innerHTML=cfg.map(([key,label,cls,desc])=>{
+    const list=t[key].length?t[key].map(m=>cardHTML(m,cls)).join(''):`<div class="empty">该档位暂无匹配专业<br>可适当调整冲刺强度或位次</div>`;
+    return `<div class="tier ${key}">
+      <div class="tier-head"><div><h3>${label}志愿</h3><div class="tier-desc">${desc}</div></div><span class="cnt">${t[key].length} 个</span></div>
+      <div class="tier-list">${list}</div>
+    </div>`;
+  }).join('');
+  // 专业分析展开/收起
+  document.querySelectorAll('#tiers .detail-btn').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      btn.closest('.mcard').classList.toggle('open');
+    });
+  });
+}
+
+/* ================= 专业库 ================= */
+const CATS=['全部','工学','医学','农学','理学','文学','管理学','经济学','法学','历史学'];
+let libCat='全部', libKey='';
+function initChips(){
+  document.getElementById('catChips').innerHTML=CATS.map(c=>`<span class="chip ${c==='全部'?'active':''}" data-cat="${c}">${c}</span>`).join('');
+  document.querySelectorAll('#catChips .chip').forEach(el=>el.addEventListener('click',()=>{
+    document.querySelectorAll('#catChips .chip').forEach(x=>x.classList.remove('active'));
+    el.classList.add('active'); libCat=el.dataset.cat; renderLib();
+  }));
+}
+document.getElementById('libSearch').addEventListener('input',e=>{libKey=e.target.value.trim();renderLib()});
+function renderLib(){
+  const all=[...PHYS.map(p=>({...p,catName:'物理类'})),...HIST.map(p=>({...p,catName:'历史类'}))];
+  const rows=all.filter(p=>(libCat==='全部'||p[1]===libCat)&&(!libKey||p[0].includes(libKey)));
+  document.getElementById('libBody').innerHTML=rows.map(p=>{
+    let tg='';
+    if(p[6] && p[6]!=='中外合作' && p[6]!=='应用工程学院') tg=`<span class="mini-tag">${p[6]}</span>`;
+    const tcls=p[7]==='c'?' style="color:#dc2626"':'';
+    return `<tr><td class="name">${p[0]}${tg}</td><td>${p[1]}</td><td ${tcls}>${p.catName}</td><td>${p[4]}</td><td><b>${p[2]}</b></td><td>${fmt(p[3])}</td><td>${p[5]}</td></tr>`;
+  }).join('') || `<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:30px">没有找到匹配的专业</td></tr>`;
+  document.getElementById('libFoot').textContent=`共找到 ${rows.length} 个专业 · 数据年份：2025 年 · 来源：河南科技大学招生就业办公室`;
+}
+
+/* 初始化 */
+initChips();
+renderLib();
+updateConvHint();
+</script>
+</body>
+</html>
