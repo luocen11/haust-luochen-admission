@@ -133,7 +133,7 @@ a{text-decoration:none;color:inherit}
 
 /* 结果 */
 #result{margin-top:34px}
-.summary{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:14px;margin-bottom:24px}
+.summary{display:grid;grid-template-columns:1.25fr repeat(4,1fr);gap:14px;margin-bottom:24px}
 .sum-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
 .sum-main{background:linear-gradient(135deg,#12306b,#1d4ed8);color:#fff;border:none}
 .sum-main .lbl{color:#cddaf3}
@@ -142,12 +142,15 @@ a{text-decoration:none;color:inherit}
 .sum-card .lbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px}
 .sum-card .big{font-size:26px;color:var(--navy);font-weight:850;line-height:1.1}
 .sum-card .big small{font-size:13px;font-weight:600;color:var(--muted)}
-.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1100px){.tiers{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.tiers{grid-template-columns:1fr}.tier-list{max-height:none}}
 .tier{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
 .tier-head{padding:16px 18px;color:#fff;display:flex;align-items:center;justify-content:space-between}
 .tier.chong .tier-head{background:linear-gradient(135deg,#f97316,#ea580c)}
 .tier.wen .tier-head{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
 .tier.bao .tier-head{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.tier.dian .tier-head{background:linear-gradient(135deg,#14b8a6,#0f766e)}
 .tier-head h3{font-size:16px;font-weight:800}
 .tier-head .cnt{font-size:12px;font-weight:700;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:100px}
 .tier-desc{font-size:11px;opacity:.9;margin-top:2px}
@@ -162,11 +165,12 @@ a{text-decoration:none;color:inherit}
 .mtag.coop{background:#fef2f2;color:#dc2626}
 .prob{font-size:19px;font-weight:850;flex:none;line-height:1}
 .prob small{font-size:11px}
-.prob.c1{color:var(--chong)}.prob.c2{color:var(--wen)}.prob.c3{color:var(--bao)}
+.prob.c1{color:var(--chong)}.prob.c2{color:var(--wen)}.prob.c3{color:var(--bao)}.prob.c4{color:#0f766e}
 .bar{height:5px;background:#eef2f8;border-radius:5px;margin:11px 0 8px;overflow:hidden}
 .bar i{display:block;height:100%;border-radius:5px}
 .c1 .bar i{background:var(--chong)}.c2 .bar i{background:var(--wen)}.c3 .bar i{background:var(--bao)}
-.mrow2{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);font-weight:600}
+.mrow2{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted);font-weight:600;flex-wrap:wrap}
+.mrow2 span{white-space:nowrap}
 .mrow2 b{color:#3b4a68}
 .detail-btn{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-size:11.5px;font-weight:700;color:var(--blue);background:var(--sky);border:none;padding:5px 11px;border-radius:7px;cursor:pointer;transition:.18s}
 .detail-btn:hover{background:var(--blue);color:#fff}
@@ -183,6 +187,7 @@ a{text-decoration:none;color:inherit}
 .dp-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;background:linear-gradient(135deg,#eff4ff,#e3ecff);color:#1d4ed8}
 .dp-note{font-size:10.5px;color:#94a3b8;margin-top:10px;line-height:1.5;font-style:italic}
 .empty{text-align:center;color:var(--muted);font-size:13px;padding:26px 10px}
+.more-note{text-align:center;font-size:11.5px;color:var(--muted);padding:12px 8px 6px;line-height:1.7}
 
 /* 专业库 */
 .toolbar{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
@@ -227,8 +232,6 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
   .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
   .hero h1{font-size:34px}
   .form-grid{grid-template-columns:1fr}
-  .tiers{grid-template-columns:1fr}
-  .tier-list{max-height:none}
   .summary{grid-template-columns:1fr 1fr}
   .about-grid{grid-template-columns:1fr}
   .navlinks{display:none}
@@ -346,6 +349,77 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
   .report-body{padding:22px 18px}
   .report-actions{padding:12px 14px}
 }
+
+/* ===== 专家流程扩展：信息采集 / 风险 / 六视角 / 日历 ===== */
+.c4 .bar i{background:#0f766e}
+select.sel{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;font-weight:700;color:var(--navy);background:#fff;font-family:inherit;outline:none;cursor:pointer}
+select.sel:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(29,78,216,.08)}
+.mini-inputs{display:flex;gap:10px}
+.mini-inputs input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:15px;font-weight:700;color:var(--navy);outline:none;font-family:inherit}
+.mini-inputs input:focus{border-color:var(--blue)}
+.mini-inputs span{align-self:center;font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
+.goal-chips{display:flex;flex-wrap:wrap;gap:7px}
+.goal-chip{font-size:12px;font-weight:700;padding:7px 13px;border-radius:100px;border:1.5px solid var(--line);background:#fff;color:#5b6b88;cursor:pointer;transition:.16s;user-select:none}
+.goal-chip:hover{border-color:#b9cdf0}
+.goal-chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.gf-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 18px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
+.gf-lb{font-size:12px;font-weight:800;color:#41516f;margin-right:4px}
+.prov-tip{display:none;margin-top:16px;padding:13px 16px;border-radius:11px;background:#fff8e6;border:1px solid #f5d98a;color:#8a5a09;font-size:13px;line-height:1.7}
+.prov-tip.show{display:block}
+
+/* 风险提示 */
+.risk-box{margin:0 0 20px;border-radius:14px;overflow:hidden;border:1px solid #f5c6c6;background:#fff}
+.risk-box.ok{border-color:#bfe6cf;background:#fff}
+.risk-hd{display:flex;align-items:center;gap:9px;padding:13px 18px;background:#fef3f2;font-size:14px;font-weight:800;color:#b42318}
+.risk-box.ok .risk-hd{background:#f0fdf4;color:#15803d}
+.risk-list{padding:6px 18px 14px;margin:0;list-style:none}
+.risk-list li{font-size:13px;line-height:1.75;color:#4a5a75;padding:7px 0;border-bottom:1px dashed #f0f2f7}
+.risk-list li:last-child{border-bottom:none}
+.risk-list b{color:#b42318}
+.risk-list .rk-tag{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px;background:#fef3f2;color:#b42318;margin-right:6px}
+
+/* 六视角分析 */
+.views{margin-top:36px}
+.views-hd{text-align:center;margin-bottom:22px}
+.views-hd h3{font-size:22px;color:var(--navy);font-weight:850}
+.views-hd p{font-size:13.5px;color:var(--muted);margin-top:6px}
+.view-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.view-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);border-left:4px solid var(--blue)}
+.view-card .vc-hd{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.view-card .vc-ic{font-size:19px}
+.view-card .vc-name{font-size:14.5px;font-weight:850;color:var(--ink)}
+.view-card .vc-stance{font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;background:#eef4ff;color:#2563eb;margin-left:auto}
+.view-card .vc-claim{font-size:13.5px;font-weight:700;color:#1d3a6b;line-height:1.6;margin-bottom:7px}
+.view-card .vc-why{font-size:12.5px;color:#5b6b88;line-height:1.8}
+.view-card.v1{border-left-color:#ea580c}.view-card.v1 .vc-stance{background:#fff1e8;color:#c2410c}
+.view-card.v2{border-left-color:#2563eb}
+.view-card.v3{border-left-color:#0891b2}.view-card.v3 .vc-stance{background:#e6f7fb;color:#0e7490}
+.view-card.v4{border-left-color:#7c3aed}.view-card.v4 .vc-stance{background:#f3eeff;color:#6d28d9}
+.view-card.v5{border-left-color:#ca8a04}.view-card.v5 .vc-stance{background:#fff8e1;color:#a16207}
+.view-card.v6{border-left-color:#b42318}.view-card.v6 .vc-stance{background:#fef3f2;color:#b42318}
+.verdict{margin-top:16px;background:linear-gradient(135deg,#12306b,#1d4ed8);color:#fff;border-radius:14px;padding:20px 24px}
+.verdict .vd-hd{font-size:13px;font-weight:800;letter-spacing:1px;opacity:.85;margin-bottom:8px}
+.verdict p{font-size:14px;line-height:1.85;color:#dbe7ff}
+
+/* 志愿日历 */
+.cal-wrap{margin-top:36px}
+.cal-list{display:grid;gap:0}
+.cal-item{display:flex;gap:16px;padding:4px 0}
+.cal-item .ci-line{display:flex;flex-direction:column;align-items:center;flex:none;width:20px}
+.cal-item .ci-dot{width:11px;height:11px;border-radius:50%;background:var(--blue);flex:none;margin-top:6px;box-shadow:0 0 0 4px rgba(29,78,216,.12)}
+.cal-item .ci-bar{width:2px;flex:1;background:#e2eaf7;margin:4px 0}
+.cal-item:last-child .ci-bar{display:none}
+.cal-item .ci-body{padding-bottom:18px}
+.cal-item .ci-date{font-size:13px;font-weight:850;color:var(--navy)}
+.cal-item .ci-title{font-size:13.5px;color:#33425e;margin-top:3px;line-height:1.65}
+.cal-item.key .ci-dot{background:#e9a836;box-shadow:0 0 0 4px rgba(233,168,54,.18)}
+.cal-item.key .ci-date{color:#b4791a}
+.cal-note{font-size:11.5px;color:var(--muted);line-height:1.75;margin-top:6px;padding-left:36px}
+@media(max-width:640px){
+  .goal-chips .goal-chip{font-size:11.5px;padding:6px 11px}
+  .view-grid{grid-template-columns:1fr}
+  .mini-inputs{flex-wrap:wrap}
+}
 </style>
 </head>
 <body>
@@ -403,7 +477,7 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
     <div class="sec-head">
       <div class="kicker">Smart Recommendation</div>
       <h2>智能志愿推荐</h2>
-      <p>看分数不如看位次——分数每年随试卷难度浮动，位次才是稳定的参照。填入你的分数或位次，系统会拿它和 2025 年各专业录取位次逐一比对，给出冲、稳、保建议。</p>
+      <p>看分数不如看位次——分数每年随试卷难度浮动，位次才是稳定的参照。填入你的分数或位次，系统会拿它和 2025 年各专业录取位次逐一比对，分成冲、稳、保、垫四档，并同步做风险排查与六视角分析。</p>
     </div>
 
     <div class="calc-card">
@@ -413,6 +487,14 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
       </div>
       <div class="calc-body">
         <div class="form-grid">
+          <div class="field">
+            <label>考生省份（决定数据是否可用）</label>
+            <select class="sel" id="provSel">
+              <option value="henan" selected>河南省 · 有 2025 完整录取数据</option>
+              <option value="other">其他省份 · 暂无该省录取数据</option>
+            </select>
+            <div class="hint">本项目数据全部来自河科大在<b>河南省</b>的录取</div>
+          </div>
           <div class="field">
             <label>输入方式</label>
             <div class="seg" id="modeSeg">
@@ -437,27 +519,65 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
             <div class="hint">2025 年河科大物理类多数专业组要求再选化学</div>
           </div>
           <div class="field">
+            <label>色觉情况（体检受限项）</label>
+            <div class="seg" id="visionSeg">
+              <button class="active" data-vision="normal">正常</button>
+              <button data-vision="weak">色弱</button>
+              <button data-vision="blind">色盲</button>
+            </div>
+            <div class="hint">色弱/色盲受教育部体检规定限制，不可报化学、医学、生物等类专业</div>
+          </div>
+          <div class="field">
+            <label>单科成绩（选填，用于学习适配提示）</label>
+            <div class="mini-inputs">
+              <input type="number" id="engInput" placeholder="英语" min="0" max="150">
+              <span>／</span>
+              <input type="number" id="mathInput" placeholder="数学" min="0" max="150">
+            </div>
+            <div class="hint">河科大普通类专业未见单科分数门槛的公开规定，此项仅作适配参考</div>
+          </div>
+          <div class="field">
             <label>推荐偏好</label>
-            <label class="checkline"><input type="checkbox" id="incCoop"> 包含中外合作办学专业（分数较低）</label>
+            <label class="checkline"><input type="checkbox" id="incCoop"> 包含中外合作办学专业（分数较低、学费较高）</label>
             <div class="slider-row" style="margin-top:14px">
               <input type="range" id="riskRange" min="115" max="140" value="125" step="5">
               <span class="slider-val" id="riskVal">1.25×</span>
             </div>
             <div class="hint">冲刺强度：越大则纳入更多「冲刺」专业</div>
           </div>
+          <div class="field">
+            <label>就业/升学倾向（可多选，用于生成规划建议）</label>
+            <div class="goal-chips" id="goalChips">
+              <span class="goal-chip" data-goal="grid">电网对口</span>
+              <span class="goal-chip" data-goal="soe">进央国企</span>
+              <span class="goal-chip" data-goal="postgrad">保研/考研</span>
+              <span class="goal-chip" data-goal="salary">高薪优先</span>
+              <span class="goal-chip" data-goal="gov">考公考编</span>
+              <span class="goal-chip" data-goal="stable">稳定第一</span>
+            </div>
+            <div class="hint">不选则按位次匹配度给出中性建议</div>
+          </div>
+        </div>
+        <div class="prov-tip" id="provTip">
+          <b>⚠️ 该省份暂无录取数据</b><br>
+          本项目仅收录河南科技大学 <b>2025 年在河南省</b>的分专业录取最低分与位次，其他省份的录取数据未收录，因此<b>无法计算该校在你所在省份的录取概率</b>。你可以继续使用「专业数据库」和「专业倾向测评」了解专业情况，但填报决策请以你所在省份考试院公布的数据为准。
         </div>
         <div class="calc-actions">
           <button class="btn btn-primary" id="goBtn">生成我的志愿方案</button>
-          <span class="note">* 结果基于历年位次估算，仅供填报参考</span>
+          <span class="note">* 概率基于 2025 年单年位次估算，仅供填报参考</span>
         </div>
       </div>
     </div>
 
     <div id="result" hidden>
       <div class="summary" id="summary"></div>
+      <div id="riskBox"></div>
+      <div id="goalFilter"></div>
       <div class="tiers" id="tiers"></div>
+      <div id="viewsWrap"></div>
+      <div id="calWrap"></div>
       <div class="report-toolbar">
-        <div class="rt-info">📄 方案满意？可以把它导出成一份图文报告，包含你的分数位次、冲稳保清单和专业分析，便于保存或打印。<br><b>提示：</b>生成报告前请先完成测评或测算，报告会自动带上你的测评倾向。</div>
+        <div class="rt-info">📄 方案满意？可以导出成一份完整的决策报告，包含四档志愿表、风险排查、六视角分析与志愿日历，支持打印 / 存 PDF / 下载 HTML，也可导出 CSV 用 Excel 打开。<br><b>提示：</b>生成报告前请先完成测算，报告会自动带上你的测评倾向与目标偏好。</div>
         <button class="btn btn-gold" id="genReportBtn">生成志愿报告 →</button>
       </div>
     </div>
@@ -529,10 +649,14 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
       <div class="panel">
         <h3><span class="ico">📊</span>数据与算法说明</h3>
         <ul>
-          <li><b>录取数据：</b>来自河南科技大学招生就业办公室公布的《2023 年-2025 年河南省录取情况》，采用其中 <b>2025 年（河南新高考首年）</b>本科批各专业数据。</li>
-          <li><b>省控线：</b>2025 年河南本科批物理类 427 分、历史类 471 分。</li>
-          <li><b>位次换算：</b>按分数输入时，依据本校 2025 各专业「分数—位次」对应点插值估算；直接输入位次更准确。</li>
-          <li><b>分档逻辑：</b>以「你的位次 ÷ 专业录取位次」的比值分档：≤0.85 保底、0.85~1.02 稳妥、1.02~冲刺上限为冲刺。</li>
+          <li><b>录取数据：</b>来自河南科技大学招生就业办公室公布的《2023 年-2025 年河南省录取情况》，采用其中 <b>2025 年（河南新高考首年）</b>本科批各专业数据，共 111 个专业。</li>
+          <li><b>只覆盖单年与单省：</b>本工具仅收录河科大在<b>河南省 2025 年</b>的数据。原因是河南 2025 年首次实行「物理类/历史类」新高考，2023–2024 年为文理分科，<b>两套位次体系不可直接比较</b>，因此不做跨年趋势外推，也不为其他省份计算概率。</li>
+          <li><b>省控线：</b>2025 年河南本科批物理类 427 分、历史类 471 分（来源：河南省教育考试院）。</li>
+          <li><b>位次换算：</b>按分数输入时，依据本校 2025 各专业「分数—位次」对应点插值估算；直接输入位次更准确。超出参考区间时会提示为外推结果。</li>
+          <li><b>分档逻辑（四档）：</b>以「你的位次 ÷ 专业录取位次」的比值分档：≤0.72 垫底、0.72~0.85 保底、0.85~1.02 稳妥、1.02~冲刺上限为冲刺。</li>
+          <li><b>概率说明：</b>上述分档边界与概率曲线是依据录取规律设定的经验估算参数，用于排序参考，并非统计意义上的精确录取概率，请勿当作确定性预测。</li>
+          <li><b>风险排查依据：</b>体检受限依据教育部《普通高等学校招生体检工作指导意见》（色弱/色盲限报化学类、化工与制药类、药学类、生物科学类、医学类等）；退档规则依据河南省平行志愿投档办法。学校当年招生章程可能更严格，以章程为准。</li>
+          <li><b>时间节点：</b>志愿日历采用 2025 年河南省实际安排，来源为河南省人民政府门户网站与河南省教育考试院《河南省 2025 年普通高等学校招生工作规定》，2026 年以官方最新通知为准。</li>
           <li><b>数据来源链接：</b><a href="https://zjc.haust.edu.cn/info/1143/25635.htm" target="_blank" rel="noopener">zjc.haust.edu.cn/info/1143/25635.htm</a></li>
         </ul>
       </div>
@@ -550,6 +674,7 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
       <div class="ra-btns">
         <button class="print" id="printReportBtn">🖨 打印 / 另存 PDF</button>
         <button id="downloadReportBtn">⬇ 下载 HTML</button>
+        <button id="csvReportBtn">⬇ 下载 CSV（Excel 可打开）</button>
         <button id="closeReportBtn">✕ 关闭</button>
       </div>
     </div>
@@ -1191,7 +1316,8 @@ const CAT_PROFILE = {
 };
 
 /* ================= 状态与工具 ================= */
-let state = { type:'phys', mode:'score', chem:'yes', risk:1.25, incCoop:false };
+let state = { type:'phys', mode:'score', chem:'yes', risk:1.25, incCoop:false,
+  province:'henan', vision:'normal', eng:null, math:null, goals:[] };
 
 function scoreToRank(score, type){
   const t = RANK_REF[type];
@@ -1258,6 +1384,37 @@ document.querySelectorAll('#chemSeg button').forEach(el=>el.addEventListener('cl
   state.chem=el.dataset.chem;
 }));
 
+/* 省份 */
+document.getElementById('provSel').addEventListener('change',e=>{
+  state.province=e.target.value;
+  document.getElementById('provTip').classList.toggle('show',state.province!=='henan');
+});
+
+/* 色觉 */
+document.querySelectorAll('#visionSeg button').forEach(el=>el.addEventListener('click',()=>{
+  document.querySelectorAll('#visionSeg button').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  state.vision=el.dataset.vision;
+}));
+
+/* 单科 */
+const syncSingle=()=>{
+  const e=document.getElementById('engInput').value;
+  const m=document.getElementById('mathInput').value;
+  state.eng=e?Number(e):null;
+  state.math=m?Number(m):null;
+};
+document.getElementById('engInput').addEventListener('input',syncSingle);
+document.getElementById('mathInput').addEventListener('input',syncSingle);
+
+/* 目标标签 */
+document.querySelectorAll('#goalChips .goal-chip').forEach(el=>el.addEventListener('click',()=>{
+  el.classList.toggle('on');
+  const g=el.dataset.goal;
+  const i=state.goals.indexOf(g);
+  if(i>=0) state.goals.splice(i,1); else state.goals.push(g);
+}));
+
 document.getElementById('incCoop').addEventListener('change',e=>state.incCoop=e.target.checked);
 document.getElementById('riskRange').addEventListener('input',e=>{
   state.risk=Number(e.target.value)/100;
@@ -1270,8 +1427,11 @@ function updateConvHint(){
   const v=Number(valInput.value);
   const hint=document.getElementById('convHint');
   if(!v||v<=0){ hint.innerHTML='输入'+(state.mode==='score'?'分数':'位次')+'后自动换算'; return; }
+  const ref=RANK_REF[state.type], lo=ref[ref.length-1][0], hi=ref[0][0];
+  const out=state.mode==='score' ? (v<lo||v>hi) : false;
+  const warn='<span style="color:#ea580c">（超出录取数据范围，为外推估算，仅供参考）</span>';
   if(state.mode==='score'){
-    hint.innerHTML='约等于全省位次 <b>'+fmt(scoreToRank(v,state.type))+'</b> 名';
+    hint.innerHTML='约等于全省位次 <b>'+fmt(scoreToRank(v,state.type))+'</b> 名'+(out?warn:'');
   }else{
     hint.innerHTML='约等于 <b>'+rankToScore(v,state.type)+'</b> 分';
   }
@@ -1281,6 +1441,11 @@ document.getElementById('goBtn').addEventListener('click',runRecommend);
 
 /* ================= 推荐核心 ================= */
 function runRecommend(){
+  activeGoal='';
+  if(state.province!=='henan'){
+    alert('提示：本工具仅收录河南科技大学 2025 年在河南省的分专业录取数据，未收录其他省份数据，无法计算该省录取概率。\n\n你仍可使用「专业数据库」与「专业倾向测评」了解专业情况；如需填报，请以你所在省份考试院公布的数据为准。');
+    return;
+  }
   const raw=Number(valInput.value);
   if(!raw||raw<=0){ alert('请输入有效的'+(state.mode==='score'?'分数':'位次')); valInput.focus(); return; }
   const userRank = state.mode==='score' ? scoreToRank(raw,state.type) : raw;
@@ -1299,45 +1464,72 @@ function runRecommend(){
     return true;
   });
 
-  const tiers={chong:[],wen:[],bao:[]};
+  const tiers={chong:[],wen:[],bao:[],dian:[]};
   data.forEach(p=>{
     const k=userRank/p[3];
     if(k>state.risk) return;
     const prob=probOf(k);
-    const item={name:p[0],cat:p[1],score:p[2],rank:p[3],group:p[4],plan:p[5],tag:p[6],type:p[7],k,prob};
-    if(k<=0.85) tiers.bao.push(item);
+    const item={name:p[0],cat:p[1],score:p[2],rank:p[3],group:p[4],plan:p[5],tag:p[6],type:p[7],k,prob,goals:[]};
+    item.goals=matchGoals(item);
+    if(k<=0.72) tiers.dian.push(item);
+    else if(k<=0.85) tiers.bao.push(item);
     else if(k<=1.02) tiers.wen.push(item);
     else tiers.chong.push(item);
   });
 
-  const byProb=(a,b)=>b.prob-a.prob;
-  tiers.bao.sort(byProb); tiers.wen.sort(byProb); tiers.chong.sort((a,b)=>a.prob-b.prob);
+  // 排序：冲刺档最难的在前（k 降序）；稳/保/垫最稳的在前（k 升序）
+  const byKasc=(a,b)=>a.k-b.k;
+  tiers.dian.sort(byKasc); tiers.bao.sort(byKasc); tiers.wen.sort(byKasc); tiers.chong.sort((a,b)=>b.k-a.k);
 
   // 若做过测评，将契合专业在各档内置顶并标记
   if(state.testMatch){
-    const lift=arr=>arr.sort((a,b)=>((state.testMatch.has(b.name)?1:0)-(state.testMatch.has(a.name)?1:0))||byProb(a,b));
-    lift(tiers.bao);lift(tiers.wen);lift(tiers.chong);
+    const lift=arr=>arr.sort((a,b)=>((state.testMatch.has(b.name)?1:0)-(state.testMatch.has(a.name)?1:0))||byKasc(a,b));
+    lift(tiers.dian);lift(tiers.bao);lift(tiers.wen);lift(tiers.chong);
   }
   // 保存结果供报告使用
-  window.lastResult={score:userScore,rank:userRank,tiers,total:tiers.bao.length+tiers.wen.length+tiers.chong.length};
+  window.lastResult={score:userScore,rank:userRank,tiers,total:tiers.bao.length+tiers.wen.length+tiers.chong.length+tiers.dian.length,
+    risks:detectRisks(tiers,userRank,userScore)};
 
   renderSummary(userScore,userRank,tiers);
+  renderRisk(window.lastResult.risks);
+  renderGoalFilter(tiers);
   renderTiers(tiers);
+  renderViews(tiers,userScore,userRank);
+  renderCalendar();
   document.getElementById('result').hidden=false;
   document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function renderSummary(score,rank,tiers){
-  const total=tiers.bao.length+tiers.wen.length+tiers.chong.length;
   document.getElementById('summary').innerHTML=`
     <div class="sum-card sum-main">
       <div class="lbl">你的测算位次</div>
       <div class="big">${fmt(rank)} <small>名 · 约 ${score} 分</small></div>
     </div>
-    <div class="sum-card"><div class="lbl">🟠 冲刺可选</div><div class="big">${tiers.chong.length} <small>个专业</small></div></div>
-    <div class="sum-card"><div class="lbl">🔵 稳妥可选</div><div class="big">${tiers.wen.length} <small>个专业</small></div></div>
-    <div class="sum-card"><div class="lbl">🟢 保底可选</div><div class="big">${tiers.bao.length} <small>个专业</small></div></div>`;
+    <div class="sum-card"><div class="lbl">🟠 冲刺</div><div class="big">${tiers.chong.length} <small>个</small></div></div>
+    <div class="sum-card"><div class="lbl">🔵 稳妥</div><div class="big">${tiers.wen.length} <small>个</small></div></div>
+    <div class="sum-card"><div class="lbl">🟢 保底</div><div class="big">${tiers.bao.length} <small>个</small></div></div>
+    <div class="sum-card"><div class="lbl">🩵 垫底</div><div class="big">${tiers.dian.length} <small>个</small></div></div>`;
 }
+
+function renderGoalFilter(t){
+  const all=[...t.chong,...t.wen,...t.bao,...t.dian];
+  const present=new Set(); all.forEach(m=>(m.goals||[]).forEach(g=>present.add(g)));
+  const box=document.getElementById('goalFilter');
+  if(!present.size){ box.innerHTML=''; return; }
+  const order=['grid','soe','postgrad','salary','gov','stable'].filter(g=>present.has(g));
+  box.innerHTML=`<div class="gf-bar">
+      <span class="gf-lb">按标签筛选</span>
+      <span class="goal-chip ${activeGoal?'':'on'}" data-g="">全部 ${all.length}</span>
+      ${order.map(g=>`<span class="goal-chip ${activeGoal===g?'on':''}" data-g="${g}">${GOAL_DEFS[g].ic} ${GOAL_DEFS[g].name} ${all.filter(m=>m.goals.includes(g)).length}</span>`).join('')}
+    </div>`;
+  box.querySelectorAll('.goal-chip').forEach(el=>el.addEventListener('click',()=>{
+    activeGoal=el.dataset.g;
+    renderGoalFilter(window.lastResult.tiers);
+    renderTiers(window.lastResult.tiers);
+  }));
+}
+let activeGoal='';
 
 function getProfile(m){
   // 精确匹配专业名（去掉括号方向后也尝试一次）
@@ -1356,6 +1548,7 @@ function cardHTML(m,cls){
   if(m.type==='chembio') tags.push(`<span class="mtag coop">需化学+生物</span>`);
   if(m.name.includes('密码学')) tags.push(`<span class="mtag">密码学方向</span>`);
   if(state.testMatch && state.testMatch.has(m.name)) tags.push(`<span class="mtag" style="background:#eef4ff;color:#2563eb">⭐ 契合测评</span>`);
+  const goalTags=(m.goals||[]).slice(0,2).map(g=>`<span class="mtag" style="background:#e8f6f5;color:#0f766e">${GOAL_DEFS[g].ic} ${GOAL_DEFS[g].name}</span>`).join('');
   const pf=getProfile(m);
   const secs=[
     ['🏛','河科大专业实力',pf.o],
@@ -1367,7 +1560,7 @@ function cardHTML(m,cls){
   const tagHtml=(pf.t&&pf.t.length)?`<div class="dp-tags">${pf.t.map(t=>`<span class="dp-tag">${t}</span>`).join('')}</div>`:'';
   return `<div class="mcard" data-name="${m.name}">
     <div class="mrow1">
-      <div><div class="mname">${m.name}</div><div class="mtags"><span class="mtag">${m.cat}</span>${tags.join('')}</div></div>
+      <div><div class="mname">${m.name}</div><div class="mtags"><span class="mtag">${m.cat}</span>${tags.join('')}${goalTags}</div></div>
       <div class="prob ${cls}">${m.prob}<small>%</small></div>
     </div>
     <div class="bar"><i style="width:${m.prob}%"></i></div>
@@ -1381,12 +1574,21 @@ function renderTiers(t){
   const cfg=[
     ['chong','冲刺','prob.c1','录取概率较低，可作为冲刺志愿'],
     ['wen','稳妥','prob.c2','与你位次匹配度较高，建议重点考虑'],
-    ['bao','保底','prob.c3','录取把握较大，用于保障下限']
+    ['bao','保底','prob.c3','录取把握较大，用于保障下限'],
+    ['dian','垫底','prob.c4','录取概率很高，用来兜住底线']
   ];
+  const LIMIT=15;
   document.getElementById('tiers').innerHTML=cfg.map(([key,label,cls,desc])=>{
-    const list=t[key].length?t[key].map(m=>cardHTML(m,cls)).join(''):`<div class="empty">该档位暂无匹配专业<br>可适当调整冲刺强度或位次</div>`;
+    const src=activeGoal?t[key].filter(m=>(m.goals||[]).includes(activeGoal)):t[key];
+    const shown=src.slice(0,LIMIT), rest=src.length-shown.length;
+    let list='';
+    if(!src.length) list=`<div class="empty">${activeGoal?'该档位没有符合此标签的专业':'该档位暂无匹配专业<br>可适当调整冲刺强度或位次'}</div>`;
+    else{
+      list=shown.map(m=>cardHTML(m,cls)).join('');
+      if(rest>0) list+=`<div class="more-note">还有 ${rest} 个专业未展开 —— 用上方标签筛选可缩小范围</div>`;
+    }
     return `<div class="tier ${key}">
-      <div class="tier-head"><div><h3>${label}志愿</h3><div class="tier-desc">${desc}</div></div><span class="cnt">${t[key].length} 个</span></div>
+      <div class="tier-head"><div><h3>${label}志愿</h3><div class="tier-desc">${desc}</div></div><span class="cnt">${src.length} 个</span></div>
       <div class="tier-list">${list}</div>
     </div>`;
   }).join('');
@@ -1397,6 +1599,174 @@ function renderTiers(t){
       btn.closest('.mcard').classList.toggle('open');
     });
   });
+}
+
+/* ================= 专家流程：标签 / 风险 / 六视角 / 日历 ================= */
+const GOAL_DEFS={
+  grid:{name:'电网对口',ic:'⚡'},
+  soe:{name:'进央国企',ic:'🏭'},
+  postgrad:{name:'保研/考研',ic:'🎓'},
+  salary:{name:'高薪优先',ic:'💰'},
+  gov:{name:'考公考编',ic:'🏛'},
+  stable:{name:'稳定第一',ic:'🛡'}
+};
+// 基于专业名 + 门类 + 官方标签推断适配方向（规则可核验，非随机）
+function matchGoals(m){
+  const n=m.name, cat=m.cat, hit=[];
+  const has=(...xs)=>xs.some(x=>n.indexOf(x)>=0);
+  if(has('电气工程')) hit.push('grid');
+  if(has('电气工程','机械','材料','车辆','能源与动力','农业机械化','材料成型')||m.tag==='国家重点') hit.push('soe');
+  if(has('材料','食品','临床医学','机械','农业机械化','能源与动力')||m.tag==='国家级一流') hit.push('postgrad');
+  if(has('计算机','软件','数据科学','电子信息','自动化','机器人','物联网')) hit.push('salary');
+  if(has('会计','法学','汉语言','思想政治','经济学','金融')) hit.push('gov');
+  if(has('电气工程','临床医学','护理','会计','思想政治','法学')) hit.push('stable');
+  return hit;
+}
+
+/* ---- 风险排查 ---- */
+function detectRisks(tiers,userRank,userScore){
+  const R=[];
+  const all=[...tiers.chong,...tiers.wen,...tiers.bao,...tiers.dian];
+  const line=state.type==='phys'?427:471;
+  const belowLine=userScore<line;
+
+  if(belowLine){
+    R.push({k:'分数未达线',t:`你的分数 ${userScore} 分低于 2025 年河南省${state.type==='phys'?'物理':'历史'}类本科批控制线 ${line} 分。以该分数在 2025 年无法投档本科批，下面的匹配结果不具备参考意义，请先核对分数，或考虑专科批、征集志愿等其他路径。`});
+    R.push({k:'退档提醒',t:'河南本科批每个院校专业组内设 6 个专业志愿及「是否服从调剂」。若分数够组线但不够所填专业线且<b>不服从调剂</b>，会被退档到下一志愿组——这是最常见的退档原因，建议组内勾选服从调剂。'});
+    return R;
+  }
+
+  const safeCnt=tiers.bao.length+tiers.dian.length;
+  if(tiers.dian.length===0&&tiers.bao.length===0){
+    R.push({k:'滑档风险',t:'当前方案<b>没有保底/垫底志愿</b>。若前面志愿全部未投档，将直接落到下一批次或征集志愿。建议至少保留 3–5 个录取概率 90% 以上的垫底专业。'});
+  }else if(safeCnt<3){
+    R.push({k:'保底不足',t:`保底+垫底志愿仅 ${safeCnt} 个，偏少。河南本科批为 48 个院校专业组平行志愿，建议保底段留足 5 个以上，避免整体滑档。`});
+  }
+  if(tiers.chong.length>0&&tiers.chong.length>tiers.wen.length+tiers.bao.length){
+    R.push({k:'结构失衡',t:`冲刺志愿（${tiers.chong.length} 个）多于稳妥+保底之和，整体偏激进。冲刺可以留，但不建议占多数。`});
+  }
+  if(state.vision!=='normal'){
+    const vName=state.vision==='weak'?'色弱':'色盲';
+    const hit=all.filter(m=>/化学|化工|材料|医学|药学|护理|生物|食品|环境|农学|动物|植物|冶金/.test(m.name)||['医学','农学'].includes(m.cat));
+    if(hit.length){
+      R.push({k:'体检受限',t:`你是${vName}。教育部体检指导意见规定，${vName}者不宜就读化学类、化工与制药类、药学类、生物科学类、医学类等专业。本方案中有 <b>${hit.length}</b> 个专业可能受此限制（如 ${hit.slice(0,4).map(x=>x.name).join('、')}），填报前务必查阅河科大当年招生章程的体检要求。`});
+    }
+  }
+  const coop=all.filter(m=>m.type==='c');
+  if(coop.length){
+    R.push({k:'学费提示',t:`方案含 ${coop.length} 个中外合作办学专业（如 ${coop.slice(0,3).map(x=>x.name).join('、')}），学费通常显著高于普通专业，且部分项目对英语有要求。请与家庭确认可承受的费用区间。`});
+  }
+  const cb=all.filter(m=>m.type==='chembio');
+  if(cb.length&&state.type==='phys'){
+    R.push({k:'选科提示',t:`方案含 ${cb.length} 个要求「化学+生物」的专业（如 ${cb.slice(0,3).map(x=>x.name).join('、')}）。请确认你的选考组合确实满足，否则会被退档。`});
+  }
+  R.push({k:'退档提醒',t:'河南本科批每个院校专业组内设 6 个专业志愿及「是否服从调剂」。若分数够组线但不够所填专业线且<b>不服从调剂</b>，会被退档到下一志愿组——这是最常见的退档原因，建议组内勾选服从调剂。'});
+  return R;
+}
+function renderRisk(R){
+  const box=document.getElementById('riskBox');
+  const bad=R.filter(r=>r.k!=='退档提醒'||R.length===1);
+  const hd=R.length?`<div class="risk-hd"><span>⚠️</span>风险排查：发现 ${R.length} 项需要注意</div>`:`<div class="risk-hd"><span>✅</span>风险排查：未发现明显结构性问题</div>`;
+  box.innerHTML=`<div class="risk-box ${R.length?'':'ok'}">${hd}<ul class="risk-list">${
+    R.map(r=>`<li><span class="rk-tag">${r.k}</span>${r.t}</li>`).join('')
+  }</ul></div>`;
+}
+
+/* ---- 六视角规划师 ---- */
+function buildViews(tiers,userScore,userRank){
+  const c=tiers.chong.length,w=tiers.wen.length,b=tiers.bao.length,d=tiers.dian.length;
+  const total=c+w+b+d;
+  const best=tiers.wen[0]||tiers.bao[0]||tiers.chong[0]||null;
+  const safest=tiers.dian[0]||tiers.bao[0]||null;
+  const has=s=>state.goals.includes(s);
+  const allMajors=[...tiers.chong,...tiers.wen,...tiers.bao,...tiers.dian];
+  const goalHit=g=>allMajors.filter(m=>(m.goals||[]).includes(g)).length;
+  const elec=[...PHYS,...HIST].find(p=>p[0].indexOf('电气工程')>=0);
+  const V=[];
+
+  V.push({cls:'v1',ic:'🚀',name:'冲刺派',stance:'进攻',
+    claim:`用足 ${c} 个冲刺位，争取更好的平台。`,
+    why:c>0
+      ?`这 ${c} 个专业的录取位次都比你更靠前，差距最大的是 ${tiers.chong[0].name}，你的位次比它靠后约 <b>${Math.round((tiers.chong[0].k-1)*100)}%</b>，属于「够得着但要运气」的区间。冲刺志愿的机会成本为零——放在最前面，不中也不影响后面的志愿。前提是后面必须有足够的保底。`
+      :`当前冲刺强度（${state.risk.toFixed(2)}×）下没有匹配到冲刺专业。如果愿意冒险，可把冲刺强度调到 1.35× 以上再试。`});
+
+  V.push({cls:'v2',ic:'🎯',name:'稳妥派',stance:'均衡',
+    claim:`以 ${w} 个稳妥专业为主体，冲保各留两端。`,
+    why:best
+      ?`稳妥档覆盖了与你位次最接近的区间，其中 ${best.name} 录取概率 ${best.prob}%，是整个方案里「性价比」最高的一批。建议把稳妥档排在志愿表的第 2–8 位，形成密集命中带。`
+      :`稳妥档为空，说明你的位次与现有专业分布之间存在断层，建议调整冲刺强度或核对位次换算是否准确。`});
+
+  const gridGap=has('grid')&&goalHit('grid')===0;
+  V.push({cls:'v3',ic:'💼',name:'就业派',stance:'看出口',
+    claim:gridGap
+      ?`你选了「电网对口」，但当前方案里<b>没有任何电气类专业</b>——这个目标用现有分数够不到。`
+      :has('grid')||has('soe')?'优先电网/央国企对口专业，稳定优先于排名。':has('salary')?'优先高薪赛道，接受更激烈的竞争。':'优先看专业出口，而不是录取分数高低。',
+    why:gridGap&&elec
+      ?`电气工程及其自动化 2025 年在豫最低 <b>${elec[2]} 分 / ${fmt(elec[3])} 名</b>，你的位次是 ${fmt(userRank)} 名，相差约 <b>${fmt(Math.abs(userRank-elec[3]))}</b> 名。若电网是唯一目标，可以接受「进不了电网就换赛道」的备选（如自动化、能源与动力），或用一年的复读换位次；否则建议把重心放到央国企对口的机械、材料等方向，河科大近四成毕业生进入国企央企，这些专业的实际出口并不差。`
+      :`河科大近四成毕业生进入国企央企，机械（轴承方向）近 5 年就业率 100%、供需比约 1:6。若目标是电网，电气工程及其自动化是最直接的对口；若目标是高薪，计算机/软件/数据科学的起薪更高但竞争更激烈。注意：录取分数高的专业不等于就业好的专业。`});
+
+  V.push({cls:'v4',ic:'🎓',name:'升学派',stance:'看深造',
+    claim:has('postgrad')?'优先有博士点/ESI 前 1% 支撑的专业，为保研考研铺路。':'如果打算读研，专业选择要优先看学科平台。',
+    why:`河科大的材料科学与工程是河南省「双一流」创建学科、ESI 全球前 1%，机械工程、食品科学与工程、临床医学均有博士点。有博士点的学科，本校保研与考研资源更集中。反过来说，本科直接就业导向强的专业（如软件工程），读研收益相对没那么突出。`});
+
+  V.push({cls:'v5',ic:'🏠',name:'家庭派',stance:'算成本',
+    claim:state.incCoop?'中外合作可作为「低分上好专业」的通道，但先算清学费。':'优先普通专业，控制总成本与地域便利。',
+    why:`洛阳本部与郑州应用工程学院（部分专业在此办学）在生活成本上有差异。中外合作项目学费通常是普通专业的数倍，若家庭预算有限，用普通专业 + 保底策略更稳。另外河科大在省内认可度高，留在河南就业的地缘优势明显。`});
+
+  V.push({cls:'v6',ic:'🛡',name:'风险派',stance:'守底线',
+    claim:d+b>=3?`保底+垫底共 ${d+b} 个，底线基本守住，但仍需确认服从调剂。`:`保底+垫底仅 ${d+b} 个，底线不稳，这是当前方案最大的问题。`,
+    why:`平行志愿的核心风险不是「冲不上」，而是「全都没中直接滑档」。河南本科批 48 个院校专业组，只要有一个垫底专业落到 95% 以上概率，就能兜住。${safest?`当前最稳的是 ${safest.name}（概率 ${safest.prob}%），建议排在志愿表最后。`:''}另外，不服从专业调剂是退档的头号原因。`});
+
+  let verdict;
+  if(d+b<3) verdict=`六个视角里，风险派的意见权重最高。<b>当前方案的短板不在冲刺，而在兜底不足</b>——先补足保底/垫底志愿，再谈冲刺，这是不可让步的顺序。`;
+  else if(c===0) verdict=`方案整体偏保守，兜底充足但缺少向上的可能性。如果你对某个专业有明确偏好，可以把冲刺强度调到 1.35× 试一次；如果更看重稳妥，当前结构是合理的。`;
+  else verdict=`方案整体结构合理：${c} 冲 / ${w} 稳 / ${b} 保 / ${d} 垫。冲刺提供上限，保底守住下限。真正需要你自己拍板的是<b>专业偏好与地域/成本之间的取舍</b>——这部分没有标准答案，取决于你更看重什么。`;
+
+  return {V,verdict};
+}
+function renderViews(tiers,userScore,userRank){
+  const {V,verdict}=buildViews(tiers,userScore,userRank);
+  document.getElementById('viewsWrap').innerHTML=`
+    <div class="views">
+      <div class="views-hd">
+        <h3>六视角规划师分析</h3>
+        <p>同一份方案，六种立场会给出不同建议。看完再自己决定。</p>
+      </div>
+      <div class="view-grid">${V.map(v=>`
+        <div class="view-card ${v.cls}">
+          <div class="vc-hd"><span class="vc-ic">${v.ic}</span><span class="vc-name">${v.name}</span><span class="vc-stance">${v.stance}</span></div>
+          <div class="vc-claim">${v.claim}</div>
+          <div class="vc-why">${v.why}</div>
+        </div>`).join('')}</div>
+      <div class="verdict"><div class="vd-hd">综合权衡</div><p>${verdict}</p></div>
+    </div>`;
+}
+
+/* ---- 志愿日历（2025 年河南省实际安排） ---- */
+const CALENDAR=[
+  {d:'6月24日',t:'公布各批次录取控制分数线',key:false},
+  {d:'6月25日 零点',t:'公布高考成绩与「一分一段表」（位次表）——拿到位次即可用本工具测算',key:true},
+  {d:'6月26日 8:00 – 28日 18:00',t:'填报：军队招飞、普通本科提前批、艺术本科提前批、体育本科批',key:false},
+  {d:'6月30日 8:00 – 7月3日 18:00',t:'填报：<b>普通本科批</b>（河科大普通类专业在此批）与艺术本科批',key:true},
+  {d:'7月5日 8:00 – 7日 18:00',t:'填报：普通高职（专科）提前批、高职（专科）批、艺术/体育专科批',key:false},
+  {d:'7月21日 – 25日',t:'普通本科批录取（河科大投档录取在此区间）',key:true},
+  {d:'7月26日 9:00 – 18:00',t:'普通本科批征集志愿——若未录取，这是同批次最后一次机会',key:true}
+];
+function renderCalendar(){
+  document.getElementById('calWrap').innerHTML=`
+    <div class="cal-wrap">
+      <div class="views-hd">
+        <h3>志愿日历</h3>
+        <p>下面是 <b>2025 年河南省</b>的实际时间安排，2026 年请以省教育考试院公布为准。</p>
+      </div>
+      <div class="cal-list">${CALENDAR.map(x=>`
+        <div class="cal-item ${x.key?'key':''}">
+          <div class="ci-line"><span class="ci-dot"></span><span class="ci-bar"></span></div>
+          <div class="ci-body"><div class="ci-date">${x.d}</div><div class="ci-title">${x.t}</div></div>
+        </div>`).join('')}
+      </div>
+      <div class="cal-note">来源：河南省人民政府门户网站、河南省教育考试院《河南省 2025 年普通高等学校招生工作规定》。每年时间会微调，2026 年务必以官方最新通知为准。</div>
+    </div>`;
 }
 
 /* ================= 专业库 ================= */
@@ -1436,15 +1806,15 @@ const QUIZ=[
   {q:'周末有一整天自由时间，你更愿意——',o:[['tech','拆装电脑或做点小手工'],['human','泡书店读历史或小说'],['biz','研究理财产品或做小计划'],['nature','研究植物、动物或看自然纪录片']]},
   {q:'看到一条科技新闻，你最关注哪个话题？',o:[['tech','新款芯片或机器人发布'],['med','新药研发或疾病攻克'],['nature','航天探测或新材料'],['biz','行业融资或市场变化']]},
   {q:'哪件事最能让你有成就感？',o:[['tech','亲手做出一个能用的东西'],['med','帮别人解决健康上的困惑'],['human','把复杂的事讲清楚或写得漂亮'],['biz','谈成一笔交易或把账算明白']]},
-  {q:'高中课堂上，你最投入的科目通常是——',o:[['tech','物理 / 通用技术'],['med','生物 / 化学'],['human','语文 / 历史 / 政治'],['biz','数学 / 经济']]},
-  {q:'如果参加一个社团，你会选——',o:[['human','文学社或辩论社'],['tech','科创社或机器人社'],['biz','商业模拟或学生会'],['med','志愿服务或红十字会']]},
-  {q:'未来理想的工作环境，你更期待——',o:[['tech','研发实验室或工程现场'],['med','医院或临床科室'],['nature','科研院所或野外考察'],['biz','写字楼或金融机构']]},
-  {q:'遇到一个复杂问题，你的第一反应是——',o:[['tech','画图拆解、动手试一试'],['med','搜集信息、逐项排查'],['human','找人讨论、权衡各方观点'],['biz','列数据表、算投入产出']]},
-  {q:'你更认同下面哪句话？',o:[['nature','人与自然应该和谐相处'],['tech','技术能改变生活'],['human','文字与思想能影响人'],['biz','资源要配置到最需要的地方']]},
+  {q:'高中课堂上，你最投入的科目通常是——',o:[['tech','物理 / 通用技术'],['med','生物 / 化学'],['biz','数学 / 经济'],['nature','地理 / 环境']]},
+  {q:'如果参加一个社团，你会选——',o:[['human','文学社或辩论社'],['nature','天文社或生物社'],['biz','商业模拟或学生会'],['med','志愿服务或红十字会']]},
+  {q:'未来理想的工作环境，你更期待——',o:[['tech','研发中心或工程现场'],['med','医院或临床科室'],['nature','科研院所或野外考察'],['biz','写字楼或金融机构']]},
+  {q:'遇到一个复杂问题，你的第一反应是——',o:[['tech','动手试一试、验证想法'],['med','搜集信息、逐项排查'],['human','找人讨论、权衡各方观点'],['biz','列数据表、算投入产出']]},
+  {q:'你更认同下面哪句话？',o:[['nature','人与自然应该和谐相处'],['human','文字与思想能影响人'],['tech','技术能让生活更便利'],['biz','资源要配置到最需要的地方']]},
   {q:'谈到大学专业，你优先考虑——',o:[['med','职业受尊重、越老越吃香'],['tech','就业面宽、好找工作'],['nature','能深造、做研究'],['human','符合兴趣、发挥特长']]},
-  {q:'你更想深入了解的领域是——',o:[['med','临床医学与药学'],['biz','金融、法律与公共政策'],['tech','人工智能与智能制造'],['nature','生物技术与生态环境']]},
-  {q:'你觉得最理想的一天是——',o:[['human','安静读书写作，与人畅谈'],['tech','专注攻克一个技术问题'],['biz','推进项目、见到成果'],['med','帮助他人、获得信任']]},
-  {q:'用一句话形容自己，你更像——',o:[['nature','好奇、沉静、热爱自然'],['tech','务实、爱动手、解决问题'],['human','敏感、善表达、有同理心'],['biz','理性、果断、目标明确']]}
+  {q:'你更想深入了解的领域是——',o:[['med','临床医学与药学'],['human','文学、历史与哲学'],['tech','人工智能与智能制造'],['nature','生物技术与生态环境']]},
+  {q:'你觉得最理想的一天是——',o:[['human','安静读书写作，与人畅谈'],['nature','走进自然、观察动植物'],['biz','推进项目、见到成果'],['med','帮助他人、获得信任']]},
+  {q:'用一句话形容自己，你更像——',o:[['tech','务实、爱动手、解决问题'],['med','细心、耐心、有责任心'],['human','敏感、善表达、有同理心'],['biz','理性、果断、目标明确']]}
 ];
 let quizAns=new Array(QUIZ.length).fill(null), quizIdx=0;
 const qBox=document.getElementById('qBox'),qPrev=document.getElementById('qPrev'),qNext=document.getElementById('qNext');
@@ -1528,6 +1898,8 @@ function showTestResult(){
   });
   document.getElementById('retestBtn').addEventListener('click',()=>{
     quizAns=new Array(QUIZ.length).fill(null);quizIdx=0;
+    // 清除旧测评倾向，避免中途放弃新测评时套用旧结果
+    state.testPref=null; state.testMatch=null; testPref=null;
     box.classList.remove('show');
     document.getElementById('quizCard').style.display='block';
     renderQuiz();
@@ -1543,60 +1915,97 @@ function buildReportHTML(){
   const typeName=state.type==='phys'?'物理类':'历史类';
   const inputDesc=state.mode==='score'?`${u.score} 分（约 ${fmt(u.rank)} 名）`:`${fmt(u.rank)} 名（约 ${u.score} 分）`;
   const chemDesc=state.type==='phys'?(state.chem==='yes'?'已选化学':'未选化学'):'—';
+  const visionDesc={normal:'正常',weak:'色弱',blind:'色盲'}[state.vision]||'正常';
   const testDesc=state.testPref?`${DIMS[state.testPref].ic} ${DIMS[state.testPref].name}`:'未测评';
-  const tierRows=(arr,label,cls)=>arr.length?arr.map(m=>`<tr><td class="tname">${m.name}</td><td><span class="rp-tier-tag ${cls}">${label}</span></td><td>${m.prob}%</td><td>${m.score}</td><td>${fmt(m.rank)}</td><td>${m.group}</td><td>${m.plan}</td></tr>`).join(''):`<tr><td colspan="7" style="color:#94a3b8">该档位暂无匹配专业</td></tr>`;
+  const goalDesc=state.goals.length?state.goals.map(g=>GOAL_DEFS[g].name).join('、'):'未指定';
   const date=new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric'});
+  const strip=s=>String(s||'').replace(/<[^>]+>/g,'');
+
+  const order=[['chong','冲刺'],['wen','稳妥'],['bao','保底'],['dian','垫底']];
+  let idx=0;
+  const rows=order.map(([k,label])=>u.tiers[k].map(m=>{
+    idx++;
+    return `<tr><td>${idx}</td><td><span class="rp-tier-tag ${k}">${label}</span></td><td class="tname">${m.name}</td><td>${m.prob}%</td><td>${m.score}</td><td>${fmt(m.rank)}</td><td>${m.group}</td><td>${m.plan}</td><td style="font-size:10px">${(m.goals||[]).map(g=>GOAL_DEFS[g].name).join('/')||'—'}</td></tr>`;
+  }).join('')).join('');
+  const tableBody=rows||'<tr><td colspan="9" style="color:#94a3b8">无匹配专业</td></tr>';
+
+  const riskRows=(u.risks||[]).map(r=>`<tr><td style="white-space:nowrap;color:#b42318;font-weight:800">${r.k}</td><td style="text-align:left">${strip(r.t)}</td></tr>`).join('')||'<tr><td colspan="2" style="color:#15803d">未发现明显结构性问题</td></tr>';
+
+  const bv=buildViews(u.tiers,u.score,u.rank);
+  const viewRows=bv.V.map(v=>`<tr><td style="white-space:nowrap;font-weight:800">${v.ic} ${v.name}</td><td style="text-align:left;font-weight:700">${strip(v.claim)}</td><td style="text-align:left;color:#5b6b88">${strip(v.why)}</td></tr>`).join('');
+
+  const calRows=CALENDAR.map(x=>`<tr><td style="white-space:nowrap;font-weight:700">${x.d}</td><td style="text-align:left">${strip(x.t)}</td></tr>`).join('');
+
   return `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>志愿方案报告 - 河科大洛尘志愿填报</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#1b2740;background:#fff;padding:30px;max-width:900px;margin:0 auto}
+    body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#1b2740;background:#fff;padding:30px;max-width:1000px;margin:0 auto}
     .rp-head{text-align:center;border-bottom:3px solid #1d4ed8;padding-bottom:22px;margin-bottom:26px}
     .rp-head .rp-logo{font-size:12px;color:#6b7892;letter-spacing:2px;font-weight:700}
     .rp-head h1{font-size:27px;margin:10px 0 6px;color:#12306b}
     .rp-head .rp-sub{font-size:12.5px;color:#6b7892}
-    .rp-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:26px}
+    .rp-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:26px}
     .rp-meta .mi{background:#f6f9ff;border:1px solid #e6ebf4;border-radius:10px;padding:12px 15px}
     .rp-meta .mi .k{font-size:11px;color:#6b7892;font-weight:700}
-    .rp-meta .mi .v{font-size:16px;color:#12306b;font-weight:850;margin-top:4px}
+    .rp-meta .mi .v{font-size:15px;color:#12306b;font-weight:850;margin-top:4px}
     .rp-sec{margin-bottom:26px}
     .rp-sec h2{font-size:16px;color:#12306b;border-left:4px solid #e9a836;padding-left:12px;margin-bottom:14px}
-    .rp-tbl{width:100%;border-collapse:collapse;font-size:12px}
-    .rp-tbl th,.rp-tbl td{border:1px solid #e6ebf4;padding:8px 9px;text-align:center}
+    .rp-sec p{font-size:12.5px;line-height:1.9;color:#41516f}
+    .rp-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+    .rp-tbl th,.rp-tbl td{border:1px solid #e6ebf4;padding:7px 8px;text-align:center}
     .rp-tbl th{background:#12306b;color:#fff;font-weight:700}
     .rp-tbl tr:nth-child(even) td{background:#fafcff}
     .rp-tbl .tname{text-align:left;font-weight:700}
-    .rp-tier-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;color:#fff}
-    .rp-tier-tag.chong{background:#ea580c}.rp-tier-tag.wen{background:#2563eb}.rp-tier-tag.bao{background:#16a34a}
-    .rp-foot{border-top:1px solid #e6ebf4;margin-top:30px;padding-top:18px;font-size:11px;color:#6b7892;line-height:1.8}
+    .rp-tier-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:800;color:#fff}
+    .rp-tier-tag.chong{background:#ea580c}.rp-tier-tag.wen{background:#2563eb}
+    .rp-tier-tag.bao{background:#16a34a}.rp-tier-tag.dian{background:#0f766e}
+    .rp-note{font-size:11.5px;color:#6b7892;line-height:1.9;background:#f8fafd;border-left:3px solid #e9a836;padding:11px 15px;margin-top:12px}
+    .rp-foot{border-top:1px solid #e6ebf4;margin-top:30px;padding-top:18px;font-size:11px;color:#6b7892;line-height:1.85}
     .rp-foot b{color:#44516b}
   </style></head><body>
   <div class="rp-head">
     <div class="rp-logo">河科大洛尘志愿填报 · LUOCHEN</div>
     <h1>我的志愿方案报告</h1>
-    <div class="rp-sub">生成日期：${date} · 数据来源：河南科技大学 2025 年在豫本科批录取数据</div>
+    <div class="rp-sub">生成日期：${date} · 数据来源：河南科技大学 2025 年在豫本科批录取数据（单年）</div>
   </div>
   <div class="rp-meta">
-    <div class="mi"><div class="k">考生科类</div><div class="v">${typeName}</div></div>
+    <div class="mi"><div class="k">考生省份</div><div class="v">河南省</div></div>
+    <div class="mi"><div class="k">科类</div><div class="v">${typeName}</div></div>
     <div class="mi"><div class="k">成绩位次</div><div class="v">${inputDesc}</div></div>
     <div class="mi"><div class="k">选考科目</div><div class="v">${chemDesc}</div></div>
+    <div class="mi"><div class="k">色觉</div><div class="v">${visionDesc}</div></div>
     <div class="mi"><div class="k">专业倾向</div><div class="v">${testDesc}</div></div>
-    <div class="mi"><div class="k">冲刺强度</div><div class="v">${state.risk.toFixed(2)}×</div></div>
+    <div class="mi"><div class="k">就业/升学倾向</div><div class="v" style="font-size:13px">${goalDesc}</div></div>
   </div>
-  <div class="rp-sec"><h2>方案概览</h2>
-    <p>本次共为你匹配 <b>${u.total}</b> 个专业：冲刺 ${u.tiers.chong.length} 个、稳妥 ${u.tiers.wen.length} 个、保底 ${u.tiers.bao.length} 个。建议按「冲一冲、稳一稳、保一保」梯度搭配，保底志愿务必留足。</p>
+
+  <div class="rp-sec"><h2>一、方案概览</h2>
+    <p>共匹配 <b>${u.total}</b> 个专业：冲刺 ${u.tiers.chong.length} 个、稳妥 ${u.tiers.wen.length} 个、保底 ${u.tiers.bao.length} 个、垫底 ${u.tiers.dian.length} 个。河南本科批为 48 个院校专业组平行志愿（每组 6 个专业 + 是否服从调剂），建议保底与垫底合计不少于 5 个。</p>
   </div>
-  <div class="rp-sec"><h2>冲刺志愿 · 录取概率较低</h2>
-    <table class="rp-tbl"><thead><tr><th>专业</th><th>档位</th><th>概率</th><th>2025最低分</th><th>最低位次</th><th>专业组</th><th>录取人数</th></tr></thead><tbody>${tierRows(u.tiers.chong,'冲刺','chong')}</tbody></table>
+
+  <div class="rp-sec"><h2>二、志愿表（按档位排序）</h2>
+    <p style="margin-bottom:10px">本表共 <b>${u.total}</b> 个可匹配专业。河南本科批最多可填 <b>48 个院校专业组</b>（每组 6 个专业），请从下表按偏好挑选，不必全填。</p>
+    <table class="rp-tbl"><thead><tr><th>序号</th><th>档位</th><th>专业</th><th>录取概率</th><th>2025最低分</th><th>最低位次</th><th>专业组</th><th>录取人数</th><th>适配方向</th></tr></thead><tbody>${tableBody}</tbody></table>
+    <div class="rp-note"><b>排序说明：</b>上表按「冲刺→稳妥→保底→垫底」的概率梯度排列，便于看清风险层次。<b>但平行志愿的投档规则是「分数优先、遵循志愿」</b>——把最想去的专业放在前面不会吃亏，因此正式填报时请以<b>你的专业偏好</b>为主序，而不是这张表的顺序。</div>
   </div>
-  <div class="rp-sec"><h2>稳妥志愿 · 位次匹配度较高</h2>
-    <table class="rp-tbl"><thead><tr><th>专业</th><th>档位</th><th>概率</th><th>2025最低分</th><th>最低位次</th><th>专业组</th><th>录取人数</th></tr></thead><tbody>${tierRows(u.tiers.wen,'稳妥','wen')}</tbody></table>
+
+  <div class="rp-sec"><h2>三、风险排查</h2>
+    <table class="rp-tbl"><thead><tr><th style="width:110px">类型</th><th>说明</th></tr></thead><tbody>${riskRows}</tbody></table>
   </div>
-  <div class="rp-sec"><h2>保底志愿 · 录取把握较大</h2>
-    <table class="rp-tbl"><thead><tr><th>专业</th><th>档位</th><th>概率</th><th>2025最低分</th><th>最低位次</th><th>专业组</th><th>录取人数</th></tr></thead><tbody>${tierRows(u.tiers.bao,'保底','bao')}</tbody></table>
+
+  <div class="rp-sec"><h2>四、六视角规划师分析</h2>
+    <table class="rp-tbl"><thead><tr><th style="width:100px">视角</th><th style="width:210px">核心主张</th><th>理由</th></tr></thead><tbody>${viewRows}</tbody></table>
+    <div class="rp-note"><b>综合权衡：</b>${strip(bv.verdict)}</div>
   </div>
+
+  <div class="rp-sec"><h2>五、志愿日历（2025 年河南省实际安排）</h2>
+    <table class="rp-tbl"><thead><tr><th style="width:190px">时间</th><th>事项</th></tr></thead><tbody>${calRows}</tbody></table>
+    <div class="rp-note">以上为 2025 年时间节点，2026 年请以河南省教育考试院最新通知为准。</div>
+  </div>
+
   <div class="rp-foot">
-    <b>免责声明：</b>本报告由「河科大洛尘志愿填报」非官方工具生成。录取概率依据 2025 年各专业录取位次统计估算，受招生计划、报考热度、选科要求等因素影响，<b>不代表录取承诺，也不构成填报决策依据</b>。各专业选科要求、招生计划、学费请以河南省教育考试院及河南科技大学当年招生章程为准；数据与官方不一致时以官方为准。<br>
-    数据来源：<a href="https://zjc.haust.edu.cn/info/1143/25635.htm">河南科技大学招生就业办公室</a>
+    <b>免责声明：</b>本报告由「河科大洛尘志愿填报」非官方工具生成。<b>AI 结果仅供参考，最终填报以河南省教育考试院和河南科技大学官网信息为准。</b><br>
+    录取概率依据 <b>2025 年单一年度</b>各专业录取位次估算（河南新高考首年，2023–2024 为文理旧制，位次不可直接比较），受招生计划、报考热度、选科要求、体检限制等因素影响，<b>不代表录取承诺，也不构成任何填报决策依据</b>。各专业选科要求、体检限制、招生计划、学费请以学校当年招生章程为准。<br>
+    数据来源：<a href="https://zjc.haust.edu.cn/info/1143/25635.htm">河南科技大学招生就业办公室（2025 年在豫录取数据）</a>；时间节点来源：河南省人民政府门户网站、河南省教育考试院《河南省 2025 年普通高等学校招生工作规定》。
   </div>
   </body></html>`;
 }
@@ -1629,8 +2038,25 @@ document.getElementById('downloadReportBtn').addEventListener('click',()=>{
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   URL.revokeObjectURL(a.href);
 });
-
-/* 初始化 */
+document.getElementById('csvReportBtn').addEventListener('click',()=>{
+  const u=window.lastResult;
+  if(!u){alert('请先生成志愿方案，再导出。');return;}
+  const q=v=>`"${String(v==null?'':v).replace(/"/g,'""')}"`;
+  const lines=[['序号','档位','专业','录取概率(%)','2025最低分','最低位次','专业组','录取人数','适配方向'].map(q).join(',')];
+  const order=[['chong','冲刺'],['wen','稳妥'],['bao','保底'],['dian','垫底']];
+  let i=0;
+  order.forEach(([k,label])=>u.tiers[k].forEach(m=>{
+    i++;
+    lines.push([i,label,m.name,m.prob,m.score,m.rank,m.group,m.plan,
+      (m.goals||[]).map(g=>GOAL_DEFS[g].name).join('/')].map(q).join(','));
+  }));
+  // 加 BOM，Excel 打开不乱码
+  const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`河科大志愿表_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+});
 initChips();
 renderLib();
 updateConvHint();
