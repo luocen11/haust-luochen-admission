@@ -240,6 +240,112 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
   .calc-body{padding:22px 18px}
   .stats-grid{grid-template-columns:1fr 1fr}
 }
+/* ===== 专业倾向测评 ===== */
+.test-intro{font-size:14.5px;color:var(--muted);line-height:1.75;max-width:820px;margin:0 auto 24px}
+.quiz-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:26px 28px}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.quiz-head .q-prog{font-size:12.5px;color:var(--muted);font-weight:700}
+.quiz-bar{height:6px;background:#eef2f9;border-radius:6px;overflow:hidden;margin-bottom:24px}
+.quiz-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:6px;transition:width .3s}
+.quiz-q{display:none}
+.quiz-q.active{display:block;animation:floatIn .35s both}
+.quiz-q .qtitle{font-size:18px;font-weight:800;color:var(--ink);margin-bottom:18px;line-height:1.5}
+.quiz-q .qtitle .qn{color:var(--blue);margin-right:8px}
+.quiz-opts{display:grid;gap:11px}
+.quiz-opt{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;transition:.18s;background:#fbfcfe}
+.quiz-opt:hover{border-color:var(--blue);background:#f4f8ff;transform:translateX(3px)}
+.quiz-opt.sel{border-color:var(--blue);background:#eef4ff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.quiz-opt .ok{width:26px;height:26px;flex:0 0 26px;border-radius:50%;border:2px solid #cbd5e8;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:800;transition:.18s}
+.quiz-opt.sel .ok{background:var(--blue);border-color:var(--blue)}
+.quiz-opt .ot{font-size:14.5px;color:var(--ink);line-height:1.55}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
+.quiz-nav .qbtn{padding:9px 20px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;cursor:pointer;transition:.18s}
+.quiz-nav .qbtn:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
+.quiz-nav .qbtn:disabled{opacity:.4;cursor:not-allowed}
+.quiz-nav .qbtn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.quiz-nav .qbtn.primary:hover{background:#1e40af;color:#fff}
+/* 测评结果 */
+.test-result{display:none;margin-top:8px}
+.test-result.show{display:block;animation:floatIn .5s both}
+.tr-top{text-align:center;margin-bottom:24px}
+.tr-badge{display:inline-block;padding:7px 18px;border-radius:100px;background:linear-gradient(135deg,#eef4ff,#fff6e6);border:1px solid var(--line);font-size:13px;color:var(--muted);font-weight:700;margin-bottom:14px}
+.tr-types{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:12px}
+.tr-type{padding:16px 24px;border-radius:16px;background:linear-gradient(135deg,#12306b,#1d4ed8);color:#fff;box-shadow:var(--shadow-lg);min-width:180px}
+.tr-type .ic{font-size:30px;display:block;margin-bottom:6px}
+.tr-type .nm{font-size:19px;font-weight:850}
+.tr-type .pc{font-size:12px;color:#cfe0ff;margin-top:4px}
+.tr-type.alt{background:linear-gradient(135deg,#fff,#fff6e6);color:var(--ink);border:1.5px solid var(--gold)}
+.tr-type.alt .pc{color:var(--muted)}
+.tr-desc{font-size:14px;color:var(--muted);line-height:1.75;max-width:720px;margin:0 auto 26px}
+.dim-bars{display:grid;gap:11px;max-width:640px;margin:0 auto 28px}
+.dim-row{display:flex;align-items:center;gap:12px}
+.dim-row .dl{width:120px;font-size:13px;color:var(--ink);font-weight:700;flex:0 0 120px;text-align:right}
+.dim-track{flex:1;height:12px;background:#eef2f9;border-radius:8px;overflow:hidden}
+.dim-track i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--blue),#60a5fa);transition:width .8s cubic-bezier(.34,1.56,.64,1)}
+.dim-row .dv{width:42px;font-size:13px;color:var(--blue);font-weight:800}
+.match-wrap{border-top:1px dashed var(--line);padding-top:22px}
+.match-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.match-head h3{font-size:17px;color:var(--ink)}
+.match-head .mhint{font-size:12.5px;color:var(--muted)}
+.match-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:11px;margin-bottom:20px}
+.match-item{padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#fff;transition:.18s}
+.match-item:hover{border-color:var(--gold);box-shadow:var(--shadow);transform:translateY(-2px)}
+.match-item .mn{font-size:14.5px;font-weight:800;color:var(--ink)}
+.match-item .mm{font-size:12px;color:var(--muted);margin-top:5px}
+.match-item .mt{font-size:11.5px;color:var(--gold);font-weight:700;margin-top:5px}
+.match-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+/* ===== 志愿报告 ===== */
+.report-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:28px;padding:18px 20px;border:1px dashed var(--gold);border-radius:14px;background:linear-gradient(135deg,#fffdf8,#fff)}
+.report-toolbar .rt-info{flex:1;min-width:200px;font-size:13.5px;color:var(--ink);line-height:1.6}
+.report-toolbar .rt-info b{color:var(--blue)}
+.report-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(10,20,45,.6);backdrop-filter:blur(4px);overflow:auto;padding:30px 16px}
+.report-modal.show{display:block;animation:floatIn .3s both}
+.report-paper{max-width:900px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.35);overflow:hidden}
+.report-actions{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px;background:#0e2350;color:#fff;flex-wrap:wrap}
+.report-actions .ra-t{font-size:14px;font-weight:700}
+.report-actions .ra-btns{display:flex;gap:10px}
+.report-actions button{padding:9px 18px;border-radius:9px;border:1.5px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer;transition:.18s}
+.report-actions button:hover{background:rgba(255,255,255,.15)}
+.report-actions button.print{background:var(--gold);border-color:var(--gold);color:#3a2600}
+.report-actions button.print:hover{background:#f0b649}
+.report-body{padding:38px 46px 46px;color:var(--ink)}
+.rp-head{text-align:center;border-bottom:3px solid var(--blue);padding-bottom:22px;margin-bottom:26px}
+.rp-head .rp-logo{font-size:13px;color:var(--muted);letter-spacing:2px;font-weight:700}
+.rp-head h1{font-size:28px;margin:10px 0 6px;color:var(--navy)}
+.rp-head .rp-sub{font-size:13px;color:var(--muted)}
+.rp-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px}
+.rp-meta .mi{background:#f6f9ff;border:1px solid var(--line);border-radius:10px;padding:12px 15px}
+.rp-meta .mi .k{font-size:11.5px;color:var(--muted);font-weight:700}
+.rp-meta .mi .v{font-size:17px;color:var(--navy);font-weight:850;margin-top:4px}
+.rp-sec{margin-bottom:26px}
+.rp-sec h2{font-size:17px;color:var(--navy);border-left:4px solid var(--gold);padding-left:12px;margin-bottom:14px}
+.rp-sec p{font-size:13.5px;color:#44516b;line-height:1.8}
+.rp-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.rp-tbl th,.rp-tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+.rp-tbl th{background:var(--navy);color:#fff;font-weight:700}
+.rp-tbl tr:nth-child(even) td{background:#fafcff}
+.rp-tbl .tname{text-align:left;font-weight:700;color:var(--ink)}
+.rp-tier-tag{display:inline-block;padding:2px 9px;border-radius:6px;font-size:11px;font-weight:800;color:#fff}
+.rp-tier-tag.chong{background:var(--chong)}.rp-tier-tag.wen{background:var(--wen)}.rp-tier-tag.bao{background:var(--bao)}
+.rp-foot{border-top:1px solid var(--line);margin-top:30px;padding-top:18px;font-size:11.5px;color:var(--muted);line-height:1.8}
+.rp-foot b{color:#44516b}
+/* 打印：只打印报告纸张 */
+@media print{
+  body>*:not(.report-modal){display:none!important}
+  .report-modal{display:block!important;position:static;background:#fff;padding:0;overflow:visible}
+  .report-actions{display:none!important}
+  .report-paper{box-shadow:none;border-radius:0;max-width:100%}
+  .report-body{padding:0}
+  @page{margin:14mm}
+}
+@media(max-width:640px){
+  .quiz-card{padding:20px 16px}
+  .quiz-q .qtitle{font-size:16px}
+  .dim-row .dl{width:88px;flex-basis:88px;font-size:11.5px}
+  .tr-type{min-width:140px;padding:12px 16px}
+  .report-body{padding:22px 18px}
+  .report-actions{padding:12px 14px}
+}
 </style>
 </head>
 <body>
@@ -258,6 +364,7 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
     </div>
     <nav class="navlinks">
       <a href="#calc">智能推荐</a>
+      <a href="#test">专业测评</a>
       <a href="#lib">专业数据库</a>
       <a href="#about">数据来源</a>
     </nav>
@@ -349,11 +456,35 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
     <div id="result" hidden>
       <div class="summary" id="summary"></div>
       <div class="tiers" id="tiers"></div>
+      <div class="report-toolbar">
+        <div class="rt-info">📄 方案满意？可以把它导出成一份图文报告，包含你的分数位次、冲稳保清单和专业分析，便于保存或打印。<br><b>提示：</b>生成报告前请先完成测评或测算，报告会自动带上你的测评倾向。</div>
+        <button class="btn btn-gold" id="genReportBtn">生成志愿报告 →</button>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="lib" class="section alt">
+<section id="test" class="section alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Aptitude Test</div>
+      <h2>专业倾向测评</h2>
+      <p class="test-intro">不确定自己适合学什么？花两分钟回答 12 道题。测评参考教育部「阳光志愿」的兴趣与学科倾向思路，结合河科大的学科设置，帮你找到更匹配的专业方向——结果可以一键带入上面的智能推荐。</p>
+    </div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-head"><b style="font-size:15px;color:var(--ink)">发现你的专业倾向</b><span class="q-prog" id="qProg">第 1 / 12 题</span></div>
+      <div class="quiz-bar"><i id="qBar"></i></div>
+      <div id="qBox"></div>
+      <div class="quiz-nav">
+        <button class="qbtn" id="qPrev" disabled>← 上一题</button>
+        <button class="qbtn primary" id="qNext" disabled>下一题 →</button>
+      </div>
+    </div>
+    <div class="test-result" id="testResult"></div>
+  </div>
+</section>
+
+<section id="lib" class="section">
   <div class="wrap">
     <div class="sec-head">
       <div class="kicker">Major Database</div>
@@ -378,7 +509,7 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
   </div>
 </section>
 
-<section id="about" class="section">
+<section id="about" class="section alt">
   <div class="wrap">
     <div class="sec-head">
       <div class="kicker">Data & Sources</div>
@@ -411,6 +542,20 @@ footer .line{margin-top:8px;font-size:12px;color:#8fa6d4}
     </div>
   </div>
 </section>
+
+<div class="report-modal" id="reportModal">
+  <div class="report-paper">
+    <div class="report-actions">
+      <span class="ra-t">📄 志愿方案报告预览</span>
+      <div class="ra-btns">
+        <button class="print" id="printReportBtn">🖨 打印 / 另存 PDF</button>
+        <button id="downloadReportBtn">⬇ 下载 HTML</button>
+        <button id="closeReportBtn">✕ 关闭</button>
+      </div>
+    </div>
+    <div class="report-body" id="reportBody"></div>
+  </div>
+</div>
 
 <footer>
   <div><b>河科大洛尘志愿填报</b></div>
@@ -1168,6 +1313,14 @@ function runRecommend(){
   const byProb=(a,b)=>b.prob-a.prob;
   tiers.bao.sort(byProb); tiers.wen.sort(byProb); tiers.chong.sort((a,b)=>a.prob-b.prob);
 
+  // 若做过测评，将契合专业在各档内置顶并标记
+  if(state.testMatch){
+    const lift=arr=>arr.sort((a,b)=>((state.testMatch.has(b.name)?1:0)-(state.testMatch.has(a.name)?1:0))||byProb(a,b));
+    lift(tiers.bao);lift(tiers.wen);lift(tiers.chong);
+  }
+  // 保存结果供报告使用
+  window.lastResult={score:userScore,rank:userRank,tiers,total:tiers.bao.length+tiers.wen.length+tiers.chong.length};
+
   renderSummary(userScore,userRank,tiers);
   renderTiers(tiers);
   document.getElementById('result').hidden=false;
@@ -1202,6 +1355,7 @@ function cardHTML(m,cls){
   if(m.type==='a') tags.push(`<span class="mtag">应用工程学院</span>`);
   if(m.type==='chembio') tags.push(`<span class="mtag coop">需化学+生物</span>`);
   if(m.name.includes('密码学')) tags.push(`<span class="mtag">密码学方向</span>`);
+  if(state.testMatch && state.testMatch.has(m.name)) tags.push(`<span class="mtag" style="background:#eef4ff;color:#2563eb">⭐ 契合测评</span>`);
   const pf=getProfile(m);
   const secs=[
     ['🏛','河科大专业实力',pf.o],
@@ -1267,6 +1421,214 @@ function renderLib(){
   }).join('') || `<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:30px">没有找到匹配的专业</td></tr>`;
   document.getElementById('libFoot').textContent=`共找到 ${rows.length} 个专业 · 数据年份：2025 年 · 来源：河南科技大学招生就业办公室`;
 }
+
+/* ================= 专业倾向测评 ================= */
+/* 维度：tech 工科技术 / med 医学健康 / nature 农林生命 / human 人文社科 / biz 经管法商 */
+const DIMS={
+  tech:{name:'工科技术型',ic:'🛠',cats:['工学'],desc:'你偏向动手实践与工程技术，喜欢把原理变成能用的东西。河科大的机械、车辆、电气、计算机、材料等工科正是王牌，就业口径宽、省内认可度高。'},
+  med:{name:'医学健康型',ic:'🩺',cats:['医学'],desc:'你关注生命与健康，愿意长期投入一门专业性强的学科。河科大临床医学为 ESI 全球前 1%，医学院底蕴深厚，职业稳定且受尊重。'},
+  nature:{name:'农林生命型',ic:'🌱',cats:['农学','理学'],desc:'你亲近自然与生命科学，喜欢研究生物、材料与环境。河科大农科与食品、生物方向有博士点和 ESI 学科支撑，适合深造。'},
+  human:{name:'人文社科型',ic:'📖',cats:['文学','历史学','法学'],desc:'你擅长表达、阅读与思辨，关注人与社会。汉语言文学、法学等专业在考公考编上有优势，适合走体制内或教育、新媒体方向。'},
+  biz:{name:'经管法商型',ic:'💼',cats:['管理学','经济学'],desc:'你对商业、数据与组织运作感兴趣。会计学、电子商务是河科大经管类优势专业，金融、大数据方向上限高，适合考公或进企业。'}
+};
+/* 12道题，选项 key 对应维度；每题选一个 */
+const QUIZ=[
+  {q:'周末有一整天自由时间，你更愿意——',o:[['tech','拆装电脑或做点小手工'],['human','泡书店读历史或小说'],['biz','研究理财产品或做小计划'],['nature','研究植物、动物或看自然纪录片']]},
+  {q:'看到一条科技新闻，你最关注哪个话题？',o:[['tech','新款芯片或机器人发布'],['med','新药研发或疾病攻克'],['nature','航天探测或新材料'],['biz','行业融资或市场变化']]},
+  {q:'哪件事最能让你有成就感？',o:[['tech','亲手做出一个能用的东西'],['med','帮别人解决健康上的困惑'],['human','把复杂的事讲清楚或写得漂亮'],['biz','谈成一笔交易或把账算明白']]},
+  {q:'高中课堂上，你最投入的科目通常是——',o:[['tech','物理 / 通用技术'],['med','生物 / 化学'],['human','语文 / 历史 / 政治'],['biz','数学 / 经济']]},
+  {q:'如果参加一个社团，你会选——',o:[['human','文学社或辩论社'],['tech','科创社或机器人社'],['biz','商业模拟或学生会'],['med','志愿服务或红十字会']]},
+  {q:'未来理想的工作环境，你更期待——',o:[['tech','研发实验室或工程现场'],['med','医院或临床科室'],['nature','科研院所或野外考察'],['biz','写字楼或金融机构']]},
+  {q:'遇到一个复杂问题，你的第一反应是——',o:[['tech','画图拆解、动手试一试'],['med','搜集信息、逐项排查'],['human','找人讨论、权衡各方观点'],['biz','列数据表、算投入产出']]},
+  {q:'你更认同下面哪句话？',o:[['nature','人与自然应该和谐相处'],['tech','技术能改变生活'],['human','文字与思想能影响人'],['biz','资源要配置到最需要的地方']]},
+  {q:'谈到大学专业，你优先考虑——',o:[['med','职业受尊重、越老越吃香'],['tech','就业面宽、好找工作'],['nature','能深造、做研究'],['human','符合兴趣、发挥特长']]},
+  {q:'你更想深入了解的领域是——',o:[['med','临床医学与药学'],['biz','金融、法律与公共政策'],['tech','人工智能与智能制造'],['nature','生物技术与生态环境']]},
+  {q:'你觉得最理想的一天是——',o:[['human','安静读书写作，与人畅谈'],['tech','专注攻克一个技术问题'],['biz','推进项目、见到成果'],['med','帮助他人、获得信任']]},
+  {q:'用一句话形容自己，你更像——',o:[['nature','好奇、沉静、热爱自然'],['tech','务实、爱动手、解决问题'],['human','敏感、善表达、有同理心'],['biz','理性、果断、目标明确']]}
+];
+let quizAns=new Array(QUIZ.length).fill(null), quizIdx=0;
+const qBox=document.getElementById('qBox'),qPrev=document.getElementById('qPrev'),qNext=document.getElementById('qNext');
+function renderQuiz(){
+  const q=QUIZ[quizIdx];
+  document.getElementById('qProg').textContent=`第 ${quizIdx+1} / ${QUIZ.length} 题`;
+  document.getElementById('qBar').style.width=((quizIdx+1)/QUIZ.length*100)+'%';
+  qBox.innerHTML=`<div class="quiz-q active">
+    <div class="qtitle"><span class="qn">Q${quizIdx+1}</span>${q.q}</div>
+    <div class="quiz-opts">${q.o.map(([k,t],i)=>`<div class="quiz-opt ${quizAns[quizIdx]===k?'sel':''}" data-k="${k}" data-i="${i}"><span class="ok">${String.fromCharCode(65+i)}</span><span class="ot">${t}</span></div>`).join('')}</div>
+  </div>`;
+  qBox.querySelectorAll('.quiz-opt').forEach(el=>el.addEventListener('click',()=>{
+    quizAns[quizIdx]=el.dataset.k;
+    qBox.querySelectorAll('.quiz-opt').forEach(x=>x.classList.remove('sel'));
+    el.classList.add('sel');
+    qNext.disabled=false;
+  }));
+  qPrev.disabled=quizIdx===0;
+  qNext.textContent=quizIdx===QUIZ.length-1?'查看测评结果 ✓':'下一题 →';
+  qNext.disabled=quizAns[quizIdx]===null;
+}
+qPrev.addEventListener('click',()=>{if(quizIdx>0){quizIdx--;renderQuiz()}});
+qNext.addEventListener('click',()=>{
+  if(quizAns[quizIdx]===null) return;
+  if(quizIdx<QUIZ.length-1){quizIdx++;renderQuiz()}
+  else showTestResult();
+});
+function calcDimScores(){
+  const s={tech:0,med:0,nature:0,human:0,biz:0};
+  quizAns.forEach(k=>{if(k)s[k]++});
+  const total=QUIZ.length;
+  return Object.keys(s).map(k=>({k,score:s[k],pct:Math.round(s[k]/total*100)})).sort((a,b)=>b.score-a.score);
+}
+let testPref=null; // 测评主导维度 key
+function showTestResult(){
+  const ranks=calcDimScores();
+  const nonzero=ranks.filter(r=>r.score>0);
+  const top=ranks[0];
+  // 次要倾向只从有得分的维度里挑；若只有一个维度得分，则次要倾向取唯一的其他维度但标注"不明显"
+  const secondCandidates=ranks.filter(r=>r.k!==top.k && r.score>0);
+  const second=secondCandidates.length?secondCandidates[0]:ranks.find(r=>r.k!==top.k);
+  const secondIsReal=secondCandidates.length>0;
+  testPref=top.k;
+  state.testPref=top.k;
+  // 匹配专业：门类在主导+次主导维度内（次要无得分时只用主导），优先国家级一流/重点
+  const prefCats=secondIsReal?[...DIMS[top.k].cats,...DIMS[second.k].cats]:[...DIMS[top.k].cats];
+  const all=[...PHYS,...HIST];
+  const matched=all.filter(p=>prefCats.includes(p[1]) && p[7]!=='c')
+    .map(p=>({p,bonus:(p[6]==='一流'||p[6]==='重点')?1:0}))
+    .sort((a,b)=>b.bonus-a.bonus || b.p[2]-a.p[2])
+    .slice(0,12).map(x=>x.p);
+  const topNames=new Set(matched.map(p=>p[0]));
+  state.testMatch=topNames;
+  const bars=ranks.map(r=>`<div class="dim-row"><span class="dl">${DIMS[r.k].ic} ${DIMS[r.k].name.replace('型','')}</span><span class="dim-track"><i style="width:${Math.max(r.pct,4)}%"></i></span><span class="dv">${r.score}题</span></div>`).join('');
+  const matchHtml=matched.map(p=>`<div class="match-item"><div class="mn">${p[0]}</div><div class="mm">${p[1]} · ${p[2]}分 · ${fmt(p[3])}名</div>${p[6]?`<div class="mt">★ ${p[6]}专业</div>`:''}</div>`).join('');
+  const box=document.getElementById('testResult');
+  box.innerHTML=`
+    <div class="tr-top">
+      <div class="tr-badge">测评完成 · 基于你的 12 道作答</div>
+      <div class="tr-types">
+        <div class="tr-type"><span class="ic">${DIMS[top.k].ic}</span><div class="nm">${DIMS[top.k].name}</div><div class="pc">主导倾向 · ${top.score}/12 题</div></div>
+        <div class="tr-type alt"><span class="ic">${secondIsReal?DIMS[second.k].ic:'🎯'}</span><div class="nm">${secondIsReal?DIMS[second.k].name:'专注一型'}</div><div class="pc">${secondIsReal?'次要倾向 · '+second.score+'/12 题':'倾向集中 · 特质鲜明'}</div></div>
+      </div>
+      <p class="tr-desc">${DIMS[top.k].desc} 下面这些河科大专业与你的倾向较匹配，已优先挑出国家级一流和重点专业。</p>
+      <div class="dim-bars">${bars}</div>
+    </div>
+    <div class="match-wrap">
+      <div class="match-head"><h3>🎯 为你匹配的专业</h3><span class="mhint">按学科门类契合度 + 专业实力排序</span></div>
+      <div class="match-list">${matchHtml}</div>
+      <div class="match-actions">
+        <button class="btn btn-primary" id="applyTestBtn">用这个倾向重排我的志愿方案 →</button>
+        <button class="btn btn-ghost" id="retestBtn">重新测评</button>
+      </div>
+    </div>`;
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('applyTestBtn').addEventListener('click',()=>{
+    document.getElementById('result').hidden ? alert('请先在上方「智能志愿推荐」输入分数或位次并生成方案，再来一键带入。') : null;
+    document.getElementById('calc').scrollIntoView({behavior:'smooth'});
+    if(!document.getElementById('result').hidden){ runRecommend(); }
+  });
+  document.getElementById('retestBtn').addEventListener('click',()=>{
+    quizAns=new Array(QUIZ.length).fill(null);quizIdx=0;
+    box.classList.remove('show');
+    document.getElementById('quizCard').style.display='block';
+    renderQuiz();
+    document.getElementById('quizCard').scrollIntoView({behavior:'smooth'});
+  });
+}
+renderQuiz();
+
+/* ================= 志愿方案报告 ================= */
+function buildReportHTML(){
+  const u=window.lastResult;
+  if(!u){alert('请先生成志愿方案，再导出报告。');return null;}
+  const typeName=state.type==='phys'?'物理类':'历史类';
+  const inputDesc=state.mode==='score'?`${u.score} 分（约 ${fmt(u.rank)} 名）`:`${fmt(u.rank)} 名（约 ${u.score} 分）`;
+  const chemDesc=state.type==='phys'?(state.chem==='yes'?'已选化学':'未选化学'):'—';
+  const testDesc=state.testPref?`${DIMS[state.testPref].ic} ${DIMS[state.testPref].name}`:'未测评';
+  const tierRows=(arr,label,cls)=>arr.length?arr.map(m=>`<tr><td class="tname">${m.name}</td><td><span class="rp-tier-tag ${cls}">${label}</span></td><td>${m.prob}%</td><td>${m.score}</td><td>${fmt(m.rank)}</td><td>${m.group}</td><td>${m.plan}</td></tr>`).join(''):`<tr><td colspan="7" style="color:#94a3b8">该档位暂无匹配专业</td></tr>`;
+  const date=new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric'});
+  return `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>志愿方案报告 - 河科大洛尘志愿填报</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#1b2740;background:#fff;padding:30px;max-width:900px;margin:0 auto}
+    .rp-head{text-align:center;border-bottom:3px solid #1d4ed8;padding-bottom:22px;margin-bottom:26px}
+    .rp-head .rp-logo{font-size:12px;color:#6b7892;letter-spacing:2px;font-weight:700}
+    .rp-head h1{font-size:27px;margin:10px 0 6px;color:#12306b}
+    .rp-head .rp-sub{font-size:12.5px;color:#6b7892}
+    .rp-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:26px}
+    .rp-meta .mi{background:#f6f9ff;border:1px solid #e6ebf4;border-radius:10px;padding:12px 15px}
+    .rp-meta .mi .k{font-size:11px;color:#6b7892;font-weight:700}
+    .rp-meta .mi .v{font-size:16px;color:#12306b;font-weight:850;margin-top:4px}
+    .rp-sec{margin-bottom:26px}
+    .rp-sec h2{font-size:16px;color:#12306b;border-left:4px solid #e9a836;padding-left:12px;margin-bottom:14px}
+    .rp-tbl{width:100%;border-collapse:collapse;font-size:12px}
+    .rp-tbl th,.rp-tbl td{border:1px solid #e6ebf4;padding:8px 9px;text-align:center}
+    .rp-tbl th{background:#12306b;color:#fff;font-weight:700}
+    .rp-tbl tr:nth-child(even) td{background:#fafcff}
+    .rp-tbl .tname{text-align:left;font-weight:700}
+    .rp-tier-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;color:#fff}
+    .rp-tier-tag.chong{background:#ea580c}.rp-tier-tag.wen{background:#2563eb}.rp-tier-tag.bao{background:#16a34a}
+    .rp-foot{border-top:1px solid #e6ebf4;margin-top:30px;padding-top:18px;font-size:11px;color:#6b7892;line-height:1.8}
+    .rp-foot b{color:#44516b}
+  </style></head><body>
+  <div class="rp-head">
+    <div class="rp-logo">河科大洛尘志愿填报 · LUOCHEN</div>
+    <h1>我的志愿方案报告</h1>
+    <div class="rp-sub">生成日期：${date} · 数据来源：河南科技大学 2025 年在豫本科批录取数据</div>
+  </div>
+  <div class="rp-meta">
+    <div class="mi"><div class="k">考生科类</div><div class="v">${typeName}</div></div>
+    <div class="mi"><div class="k">成绩位次</div><div class="v">${inputDesc}</div></div>
+    <div class="mi"><div class="k">选考科目</div><div class="v">${chemDesc}</div></div>
+    <div class="mi"><div class="k">专业倾向</div><div class="v">${testDesc}</div></div>
+    <div class="mi"><div class="k">冲刺强度</div><div class="v">${state.risk.toFixed(2)}×</div></div>
+  </div>
+  <div class="rp-sec"><h2>方案概览</h2>
+    <p>本次共为你匹配 <b>${u.total}</b> 个专业：冲刺 ${u.tiers.chong.length} 个、稳妥 ${u.tiers.wen.length} 个、保底 ${u.tiers.bao.length} 个。建议按「冲一冲、稳一稳、保一保」梯度搭配，保底志愿务必留足。</p>
+  </div>
+  <div class="rp-sec"><h2>冲刺志愿 · 录取概率较低</h2>
+    <table class="rp-tbl"><thead><tr><th>专业</th><th>档位</th><th>概率</th><th>2025最低分</th><th>最低位次</th><th>专业组</th><th>录取人数</th></tr></thead><tbody>${tierRows(u.tiers.chong,'冲刺','chong')}</tbody></table>
+  </div>
+  <div class="rp-sec"><h2>稳妥志愿 · 位次匹配度较高</h2>
+    <table class="rp-tbl"><thead><tr><th>专业</th><th>档位</th><th>概率</th><th>2025最低分</th><th>最低位次</th><th>专业组</th><th>录取人数</th></tr></thead><tbody>${tierRows(u.tiers.wen,'稳妥','wen')}</tbody></table>
+  </div>
+  <div class="rp-sec"><h2>保底志愿 · 录取把握较大</h2>
+    <table class="rp-tbl"><thead><tr><th>专业</th><th>档位</th><th>概率</th><th>2025最低分</th><th>最低位次</th><th>专业组</th><th>录取人数</th></tr></thead><tbody>${tierRows(u.tiers.bao,'保底','bao')}</tbody></table>
+  </div>
+  <div class="rp-foot">
+    <b>免责声明：</b>本报告由「河科大洛尘志愿填报」非官方工具生成。录取概率依据 2025 年各专业录取位次统计估算，受招生计划、报考热度、选科要求等因素影响，<b>不代表录取承诺，也不构成填报决策依据</b>。各专业选科要求、招生计划、学费请以河南省教育考试院及河南科技大学当年招生章程为准；数据与官方不一致时以官方为准。<br>
+    数据来源：<a href="https://zjc.haust.edu.cn/info/1143/25635.htm">河南科技大学招生就业办公室</a>
+  </div>
+  </body></html>`;
+}
+document.getElementById('genReportBtn').addEventListener('click',()=>{
+  const html=buildReportHTML();
+  if(!html)return;
+  document.getElementById('reportBody').innerHTML=html;
+  document.getElementById('reportModal').classList.add('show');
+  document.body.style.overflow='hidden';
+});
+document.getElementById('closeReportBtn').addEventListener('click',()=>{
+  document.getElementById('reportModal').classList.remove('show');
+  document.body.style.overflow='';
+});
+document.getElementById('reportModal').addEventListener('click',e=>{
+  if(e.target.id==='reportModal'){e.currentTarget.classList.remove('show');document.body.style.overflow='';}
+});
+document.getElementById('printReportBtn').addEventListener('click',()=>{
+  const html=buildReportHTML();
+  const w=window.open('','_blank');
+  if(w){w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);}
+  else{window.print();}
+});
+document.getElementById('downloadReportBtn').addEventListener('click',()=>{
+  const html=buildReportHTML();
+  if(!html)return;
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`河科大志愿方案报告_${new Date().toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+});
 
 /* 初始化 */
 initChips();
